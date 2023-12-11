@@ -1,0 +1,211 @@
+import SpriteKit
+import SwiftUI
+
+
+
+class ShipScene: SKScene {
+    @Binding var sceneSpeed: Double
+    @Binding var shipAppear: Bool
+
+    init(sceneSpeed: Binding<Double>, shipAppear: Binding<Bool>) {
+        self._sceneSpeed = sceneSpeed
+        self._shipAppear = shipAppear
+        
+        super.init(size: CGSize(width: 1, height: 1))
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    var isTrue = true
+    let cameraNode = SKCameraNode()
+    
+    
+    let shipTextures = [SKTexture(imageNamed: "im1"),
+                        SKTexture(imageNamed: "im2"),
+                        SKTexture(imageNamed: "im3"),
+                        SKTexture(imageNamed: "im4"),
+                        SKTexture(imageNamed: "im5")]
+    
+    let ship : SKSpriteNode = {
+        let object = SKSpriteNode(imageNamed: "im1")
+        
+        let proportion = CGFloat(349) / CGFloat(120)
+        let width: CGFloat = 200
+        let height: CGFloat = width / proportion
+               
+        object.size = CGSize(width: width, height: height)
+        
+        return object
+    }()
+    
+    let fireTextures = [SKTexture(imageNamed: "f1"),
+                        SKTexture(imageNamed: "f2"),
+                        SKTexture(imageNamed: "f3"),
+                        SKTexture(imageNamed: "f4"),
+                        SKTexture(imageNamed: "f5")]
+    
+    let fireTexturesG = [SKTexture(imageNamed: "f1g"),
+                        SKTexture(imageNamed: "f2g"),
+                        SKTexture(imageNamed: "f3g"),
+                        SKTexture(imageNamed: "f4g"),
+                        SKTexture(imageNamed: "f5g")]
+    
+    let fireTexturesGG = [SKTexture(imageNamed: "f1gg"),
+                        SKTexture(imageNamed: "f2gg"),
+                        SKTexture(imageNamed: "f3gg"),
+                        SKTexture(imageNamed: "f4gg"),
+                        SKTexture(imageNamed: "f5gg")]
+    
+    let fireNode: SKSpriteNode = {
+          let fire = SKSpriteNode(imageNamed: "f1")
+        
+        let proportion = CGFloat(60) / CGFloat(120)
+        let width: CGFloat = 200
+        let height: CGFloat = width / proportion
+               
+        fire.size = CGSize(width: width, height: height)
+          return fire
+      }()
+    
+    var characterNode: SKSpriteNode?
+
+    override func sceneDidLoad() {
+        self.scaleMode = .fill
+        self.backgroundColor = .clear
+    }
+
+    override func didMove(to view: SKView) {
+        
+        
+        self.backgroundColor = .clear
+        
+//        ship.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
+        self.addChild(cameraNode)
+        cameraNode.position = CGPoint(x: 0, y: 0)
+        cameraNode.setScale(1.0)
+        self.camera = cameraNode
+    
+        ship.zPosition = 1
+        addChild(ship)
+        ship.position = CGPoint(x: -750 , y: 0)
+//        print(ship.position)
+      
+                
+        let moveAction = SKAction.repeatForever(.animate(with: shipTextures, timePerFrame: 0.2))
+        moveAction.speed = 0
+        ship.run(moveAction, withKey: "move")
+        
+        let moveFire = SKAction.repeatForever(.animate(with: fireTextures, timePerFrame: 0.2))
+        moveAction.speed = 0
+        
+        fireNode.size = CGSize(width: ship.size.width, height: ship.size.height)
+       
+        fireNode.position = CGPoint(x: ship.position.x - ship.size.width /** 0.5*/, y: ship.position.y) // Ajuste conforme necessário
+        self.addChild(fireNode)
+        fireNode.run(moveFire, withKey: "moveF")
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+
+        _ = touch.location(in: self)
+        _ = touch.previousLocation(in: self)
+
+    }
+
+    override func update(_ currentTime: TimeInterval) {
+//        print(sceneSpeed)
+        
+        if shipAppear == true{
+            moveShipToCenter(withSpeed: sceneSpeed)
+        }
+        
+        if sceneSpeed >= 50{
+            
+            
+            if fireNode.action(forKey: "moveFireGG") == nil {
+                let moveFireGG = SKAction.repeatForever(.animate(with: fireTexturesGG, timePerFrame: 0.1))
+                fireNode.removeAction(forKey: "moveFire")
+                fireNode.removeAction(forKey: "moveFireG")
+                fireNode.run(moveFireGG, withKey: "moveFireGG")
+            }
+        } else if sceneSpeed >= 30 {
+            if fireNode.action(forKey: "moveFireG") == nil {
+                let moveFireG = SKAction.repeatForever(.animate(with: fireTexturesG, timePerFrame: 0.15))
+                fireNode.removeAction(forKey: "moveFire")
+                fireNode.removeAction(forKey: "moveFireGG")
+                fireNode.run(moveFireG, withKey: "moveFireG")
+            }
+        } else if sceneSpeed <= 49{
+            if fireNode.action(forKey: "moveFire") == nil {
+                let moveFire = SKAction.repeatForever(.animate(with: fireTextures, timePerFrame: 0.2))
+                fireNode.removeAction(forKey: "moveFireG")
+                fireNode.removeAction(forKey: "moveFireGG")
+                fireNode.run(moveFire, withKey: "moveFire")
+            }
+        }
+    }
+    
+    func moveShipToCenter(withSpeed speed: CGFloat) {
+     
+        if (ship.position.x < 0) {
+            if ship.action(forKey: "moving") == nil {
+                //               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
+                let speedFactor = 1
+                let moveAction = SKAction.moveBy(x: 10 * speed * CGFloat(speedFactor), y: 0, duration: 0.1)
+                ship.run(moveAction, withKey: "moving")
+                fireNode.run(moveAction, withKey: "moving")
+            }
+        }else{
+            ship.removeAction(forKey: "moving")
+            fireNode.removeAction(forKey: "moving")
+        }
+    }
+}
+
+
+
+
+
+struct ShipSceneView: UIViewRepresentable {
+    @Binding var sceneSpeed: Double
+    @Binding var shipAppear: Bool
+    
+    func makeUIView(context: Context) -> SKView {
+        let skView = SKView()
+        skView.isMultipleTouchEnabled = true
+        skView.backgroundColor = .clear
+        let sceneSize = CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        let gameScene = ShipScene( sceneSpeed: $sceneSpeed, shipAppear: $shipAppear)
+        gameScene.size = sceneSize
+        skView.presentScene(gameScene)
+
+        // Save the reference to the scene
+//        context.coordinator.scene = gameScene
+        return skView
+    }
+
+    func updateUIView(_ uiView: SKView, context: Context) {
+  
+    }
+
+//    class Coordinator: NSObject {
+//        var scene: ShipScene?
+//
+//        @objc func update(_ sender: UITapGestureRecognizer) {
+//          
+//        }
+//    }
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator()
+    }
+
+    func updateUIView(_ uiView: ShipScene, context: Context) {
+    
+    }
+    
+    
+}

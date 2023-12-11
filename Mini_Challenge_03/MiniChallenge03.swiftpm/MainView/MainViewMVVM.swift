@@ -1,0 +1,70 @@
+//
+//  File.swift
+//  
+//
+//  Created by Jairo Júnior on 08/12/23.
+//
+
+import Foundation
+import SwiftUI
+import SpriteKit
+
+
+class MainViewMVVM: ObservableObject{
+    @Published var shipSpeed: Double = 2.0
+    @Published var shipAppear: Bool = false
+    @Published var isLightSpeed: Bool = false
+    
+    @Published var StartButtonProportion = CGFloat(120) / CGFloat(60)
+    @Published var StartButtonWidth: CGFloat = 150
+
+    var speedBinding: Binding<Double> {
+        Binding(
+            get: { self.shipSpeed },
+            set: { newValue in
+                self.shipSpeed = newValue
+            }
+        )
+    }
+
+    var shipAppearBinding: Binding<Bool> {
+        Binding(
+            get: { self.shipAppear },
+            set: { newValue in
+                self.shipAppear = newValue
+            }
+        )
+    }
+    
+    var isLightSpeedBinding: Binding<Bool> {
+        Binding(
+            get: { self.isLightSpeed },
+            set: { newValue in
+                self.isLightSpeed = newValue
+            }
+        )
+    }
+    
+    var backGroundScene: SKScene {
+        let scene = BackGround(sceneSpeed: speedBinding)
+        scene.size = CGSize(width: 700, height: 500)
+        scene.scaleMode = .fill
+        return scene
+    }
+    
+    var lightSpeed: SKScene {
+        let scene = LightSpeedScene(sceneSpeed: speedBinding)
+        scene.size = CGSize(width: 700, height: 500)
+        scene.scaleMode = .fill
+        return scene
+    }
+    
+    var reverseBackGround: SKScene {
+        let scene = ReverseBackGround(sceneSpeed: speedBinding)
+        scene.size = CGSize(width: 700, height: 500)
+        scene.scaleMode = .fill
+        return scene
+    }
+    
+   
+}

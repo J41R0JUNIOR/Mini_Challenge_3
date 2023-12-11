@@ -20,17 +20,15 @@ let package = Package(
             teamIdentifier: "KV78S9S54R",
             displayVersion: "1.0",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .plane),
+            appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.cyan),
             supportedDeviceFamilies: [
                 .pad,
                 .phone
             ],
             supportedInterfaceOrientations: [
-                .portrait,
                 .landscapeRight,
-                .landscapeLeft,
-                .portraitUpsideDown(.when(deviceFamilies: [.pad]))
+                .landscapeLeft
             ]
         )
     ],
