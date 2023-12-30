@@ -1,15 +1,22 @@
 import SpriteKit
 import SwiftUI
 
-
+enum chats: String{
+    case jupiter = "A luz demora em média 0,4s para dar a volta completa em Júpiter, isso significa que em um segundo ela dá duas voltas em torno do planeta e em um minuto 23 voltas"
+    case earth = "A luz demora em média 0,04s para dar a volta completa na Terra, isso significa que em um segundo ela dá 23 voltas em torno do planeta e em um minuto 1211 voltas"
+}
 
 class ShipScene: SKScene {
     @Binding var sceneSpeed: Double
     @Binding var shipAppear: Bool
+    @Binding var witchObject: String
+    @Binding var canClearChat: Bool
 
-    init(sceneSpeed: Binding<Double>, shipAppear: Binding<Bool>) {
+    init(sceneSpeed: Binding<Double>, shipAppear: Binding<Bool>, witchObject: Binding<String>, canClearChat: Binding<Bool>) {
         self._sceneSpeed = sceneSpeed
         self._shipAppear = shipAppear
+        self._witchObject = witchObject
+        self._canClearChat = canClearChat
         
         super.init(size: CGSize(width: 1, height: 1))
     }
@@ -114,17 +121,61 @@ class ShipScene: SKScene {
         _ = touch.previousLocation(in: self)
 
     }
+    
+    func addChat(text: String){
+        print("foi em")
+        print(text)
+        chat.text = text
+//        chat.fontSize = 15
+        chat.fontColor = UIColor(resource: .texts)
+        chat.horizontalAlignmentMode = .center
+        chat.verticalAlignmentMode = .top
+        chat.numberOfLines = 0
+        chat.preferredMaxLayoutWidth = size.width - 40
+        
+        if chat.parent == nil{
+            addChild(chat)
+        }
+        chat.position.x = cameraNode.position.x
+        chat.position.y = cameraNode.position.y - 180
+        
+        
+    }
+    
+    var chat: SKLabelNode = SKLabelNode()
 
+    
+    func callChat(){
+        if witchObject == "jupiter"{
+            witchObject = "obj in scene"
+            addChat(text: chats.jupiter.rawValue)
+            
+        }
+        else if witchObject == "earth"{
+            witchObject = "obj in scene"
+            addChat(text: chats.earth.rawValue)
+            
+        }
+        else if witchObject == "Anything"{
+            chat.removeFromParent()
+        }
+        else if canClearChat == true{
+            chat.removeFromParent()
+        }
+    }
     override func update(_ currentTime: TimeInterval) {
 //        print(sceneSpeed)
+        // Supondo que chats seja um enum e witchObject seja uma string
+//
+        callChat()
+//
+        
         
         if shipAppear == true{
             moveShipToCenter(withSpeed: sceneSpeed)
         }
         
         if sceneSpeed >= 50{
-            
-            
             if fireNode.action(forKey: "moveFireGG") == nil {
                 let moveFireGG = SKAction.repeatForever(.animate(with: fireTexturesGG, timePerFrame: 0.1))
                 fireNode.removeAction(forKey: "moveFire")
@@ -172,13 +223,15 @@ class ShipScene: SKScene {
 struct ShipSceneView: UIViewRepresentable {
     @Binding var sceneSpeed: Double
     @Binding var shipAppear: Bool
+    @Binding var witchObject: String
+    @Binding var canClearChat: Bool
     
     func makeUIView(context: Context) -> SKView {
         let skView = SKView()
         skView.isMultipleTouchEnabled = true
         skView.backgroundColor = .clear
         let sceneSize = CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-        let gameScene = ShipScene( sceneSpeed: $sceneSpeed, shipAppear: $shipAppear)
+        let gameScene = ShipScene( sceneSpeed: $sceneSpeed, shipAppear: $shipAppear, witchObject: $witchObject, canClearChat: $canClearChat)
         gameScene.size = sceneSize
         skView.presentScene(gameScene)
 

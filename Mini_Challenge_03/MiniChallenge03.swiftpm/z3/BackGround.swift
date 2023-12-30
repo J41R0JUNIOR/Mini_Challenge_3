@@ -27,6 +27,7 @@ class BackGround: SKScene {
         backgroundColor = UIColor(resource: .sky)
         cameraNode.setScale(1.0)
         self.camera = cameraNode
+        cameraNode.position.x = -100
         createStars()
     }
 
@@ -51,18 +52,33 @@ class BackGround: SKScene {
                 if let estrelaNode = estrela as? SKSpriteNode {
                     updateStarWidth(estrelaNode: estrelaNode)
                     let x = estrelaNode.position.x
+                    
                     //
-//                    let screenWidth = CGFloat(self.view?.bounds.width ?? 1.0) - 550
+                    let screenWidth = CGFloat(self.view?.bounds.width ?? 1.0) - 550
+
+                    let normalizedX = x / (screenWidth / 2) * sceneSpeed
+
+                    
+                    
+                    let redColor = max(0.0, 1.0 - normalizedX)
+                    let blueColor = max(0.0, 1.0 + normalizedX)
+
+                    estrelaNode.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
+                    estrelaNode.colorBlendFactor = 1 * sceneSpeed / 100
+                    
+//                    if estrelaNode.position.x > cameraNode.position.x{
+//                        let blueColor = estrelaNode.position.x - 100
 //
-//                    let normalizedX = x / (screenWidth / 2) * sceneSpeed
+//                        estrelaNode.color = SKColor(red: 0, green: 0.0, blue: blueColor, alpha: 1.0)
+//                    }
+//                    else if estrelaNode.position.x < cameraNode.position.x{
+//                        
+//                        let redColor = estrelaNode.position.x - 300
+//                        estrelaNode.color = SKColor(red: -redColor, green: 0.0, blue: 0, alpha: 1.0)
+//                    }
 //
-//                    
-//                    
-//                    let redColor = max(0.0, 1.0 - normalizedX)
-//                    let blueColor = max(0.0, 1.0 + normalizedX)
-//
-//                    estrelaNode.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
-//                    estrelaNode.colorBlendFactor = 1.0
+//                   
+//                    estrelaNode.colorBlendFactor = 1 * sceneSpeed /*/ 100*/
                     //
                  
 

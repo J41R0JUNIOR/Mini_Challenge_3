@@ -14,9 +14,11 @@ class MainViewMVVM: ObservableObject{
     @Published var shipSpeed: Double = 2.0
     @Published var shipAppear: Bool = false
     @Published var isLightSpeed: Bool = false
+    @Published var witchObject: String = "Anything"
+    @Published var canClearChat: Bool = false
     
-    @Published var StartButtonProportion = CGFloat(120) / CGFloat(60)
-    @Published var StartButtonWidth: CGFloat = 150
+    @Published var StartButtonProportion = CGFloat(160) / CGFloat(60)
+    @Published var StartButtonWidth: CGFloat = 200
 
     var speedBinding: Binding<Double> {
         Binding(
@@ -41,6 +43,15 @@ class MainViewMVVM: ObservableObject{
             get: { self.isLightSpeed },
             set: { newValue in
                 self.isLightSpeed = newValue
+            }
+        )
+    }
+    
+    var witchObjectBinding: Binding<String> {
+        Binding(
+            get: { self.witchObject },
+            set: { newValue in
+                self.witchObject = newValue
             }
         )
     }

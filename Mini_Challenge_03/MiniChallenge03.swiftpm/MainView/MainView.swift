@@ -14,15 +14,18 @@ struct MainView: View {
                     .ignoresSafeArea()
                     .navigationBarBackButtonHidden()
                 
-                
-                ObjectsSceneView(sceneSpeed: $mainView.shipSpeed)
-                ShipSceneView(sceneSpeed: $mainView.shipSpeed, shipAppear: $mainView.shipAppear)
+                if mainView.shipAppear == true{
+                    ObjectsSceneView(sceneSpeed: $mainView.shipSpeed, witchObject: $mainView.witchObject, canClearChat: $mainView.canClearChat)
+                }
+                ShipSceneView(sceneSpeed: $mainView.shipSpeed, shipAppear: $mainView.shipAppear, witchObject: $mainView.witchObject, canClearChat: $mainView.canClearChat)
                 VStack{
                     Spacer()
                     if mainView.shipAppear == false{
+                        
+                        
+                        
                         Button {
                             mainView.shipAppear = true
-                            print( mainView.shipAppear)
                         } label: {
                             Image("startButtonBlack")
                                 .resizable()
@@ -44,7 +47,6 @@ struct MainView: View {
 //                    SpriteKitBackGroundLightSpeed(sceneSpeed: $speed)
                     CharacterView1()
 //                    ObjectsSceneView(sceneSpeed: $speed)
-
                 }
             }
 //            if speed < 49{
@@ -68,9 +70,7 @@ struct MainView: View {
                         if mainView.shipSpeed == 50{
                             if !mainView.isLightSpeed{
                                 Button {
-                                    //                                speed = 100
                                     mainView.isLightSpeed.toggle()
-                                    
                                 } label:{
                                     Text("LightSpeed")
                                 }
