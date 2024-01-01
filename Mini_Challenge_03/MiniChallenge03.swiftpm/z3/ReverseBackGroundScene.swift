@@ -1,7 +1,7 @@
 import SpriteKit
 import SwiftUI
 
-class ReverseBackGround: SKScene {
+class ReverseBackGroundScene: SKScene {
     var isTrue = true
     let cameraNode = SKCameraNode()
     var stars: [SKSpriteNode] = []

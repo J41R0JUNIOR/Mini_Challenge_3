@@ -1,7 +1,7 @@
 import SpriteKit
 import SwiftUI
 
-class BackGround: SKScene {
+class BackGroundScene: SKScene {
     var isTrue = true
     let cameraNode = SKCameraNode()
     var stars: [SKSpriteNode] = []

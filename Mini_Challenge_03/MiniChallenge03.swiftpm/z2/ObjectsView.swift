@@ -98,7 +98,7 @@ class ObjectsView: SKScene {
         if sceneSpeed > 40{
             objects.first?.colorBlendFactor =  (1 * sceneSpeed) * 2 / 100
         }else{
-            objects.first?.colorBlendFactor =  (1 * sceneSpeed) / 100
+            objects.first?.colorBlendFactor =  (1 * sceneSpeed) * 1 / 100
 
         }
         

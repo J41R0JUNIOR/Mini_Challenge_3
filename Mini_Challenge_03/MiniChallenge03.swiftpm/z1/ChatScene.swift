@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 import SwiftUI
 
-class Character: SKScene {
+class ChatScene: SKScene {
   
     var eistein: SKSpriteNode = {
         let object = SKSpriteNode(imageNamed: "einstein")
@@ -50,7 +50,7 @@ struct CharacterView1: UIViewRepresentable {
         skView.isMultipleTouchEnabled = true
         skView.backgroundColor = .clear
         let sceneSize = CGSize(width: 700, height: 500)
-        let gameScene = Character()
+        let gameScene = ChatScene()
         gameScene.size = sceneSize
         skView.presentScene(gameScene)
 

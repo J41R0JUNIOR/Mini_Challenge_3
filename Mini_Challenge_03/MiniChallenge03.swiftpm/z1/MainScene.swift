@@ -6,17 +6,22 @@ enum chats: String{
     case earth = "A luz demora em média 0,04s para dar a volta completa na Terra, isso significa que em um segundo ela dá 23 voltas em torno do planeta e em um minuto 1211 voltas"
 }
 
-class ShipScene: SKScene {
+class MainScene: SKScene {
     @Binding var sceneSpeed: Double
     @Binding var shipAppear: Bool
     @Binding var witchObject: String
+    @Binding var shipState: String
     @Binding var canClearChat: Bool
+    @Binding var isLightSpeed: Bool
 
-    init(sceneSpeed: Binding<Double>, shipAppear: Binding<Bool>, witchObject: Binding<String>, canClearChat: Binding<Bool>) {
+
+    init(sceneSpeed: Binding<Double>, shipAppear: Binding<Bool>, witchObject: Binding<String>, isShipInView: Binding<String>, canClearChat: Binding<Bool>, isLightSpeed: Binding<Bool>) {
         self._sceneSpeed = sceneSpeed
         self._shipAppear = shipAppear
         self._witchObject = witchObject
         self._canClearChat = canClearChat
+        self._isLightSpeed = isLightSpeed
+        self._shipState = isShipInView
         
         super.init(size: CGSize(width: 1, height: 1))
     }
@@ -172,7 +177,7 @@ class ShipScene: SKScene {
         
         
         if shipAppear == true{
-            moveShipToCenter(withSpeed: sceneSpeed)
+            moveShip(withSpeed: sceneSpeed)
         }
         
         if sceneSpeed >= 50{
@@ -199,21 +204,45 @@ class ShipScene: SKScene {
         }
     }
     
-    func moveShipToCenter(withSpeed speed: CGFloat) {
-     
-        if (ship.position.x < 0) {
-            if ship.action(forKey: "moving") == nil {
-                //               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
-                let speedFactor = 1
-                let moveAction = SKAction.moveBy(x: 10 * speed * CGFloat(speedFactor), y: 0, duration: 0.1)
-                ship.run(moveAction, withKey: "moving")
-                fireNode.run(moveAction, withKey: "moving")
+    func moveShip(withSpeed speed: CGFloat) {
+        
+        if !isLightSpeed{
+            if (ship.position.x < 0) {
+                if ship.action(forKey: "movingInside") == nil {
+                    //               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
+                    let speedFactor = 1
+                    let moveAction = SKAction.moveBy(x: 10 * speed * CGFloat(speedFactor), y: 0, duration: 0.1)
+                    ship.run(moveAction, withKey: "movingInside")
+                    fireNode.run(moveAction, withKey: "movingInside")
+                }
+            }else{
+                ship.removeAction(forKey: "movingInside")
+                fireNode.removeAction(forKey: "movingInside")
+                shipState = "Mid"
             }
-        }else{
-            ship.removeAction(forKey: "moving")
-            fireNode.removeAction(forKey: "moving")
-        }
+        }else if let widthLength = view?.bounds.width {
+                if ship.position.x < widthLength{
+                    if ship.action(forKey: "movingOutside") == nil {
+                        //               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
+                        let speedFactor = 1
+                        let moveAction = SKAction.moveBy(x: 10 * /*speed **/ CGFloat(speedFactor), y: 0, duration: 0.1)
+                        ship.run(moveAction, withKey: "movingOutside")
+                        fireNode.run(moveAction, withKey: "movingOutside")
+                    }
+                }
+                else{
+//                    ship.action(forKey: "Outside")
+                    shipState = "Outside"
+                }
+//                else{
+//                    ship.removeFromParent()
+//                    fireNode.removeFromParent()
+//                }
+            }
+        
     }
+    
+    
 }
 
 
@@ -224,14 +253,17 @@ struct ShipSceneView: UIViewRepresentable {
     @Binding var sceneSpeed: Double
     @Binding var shipAppear: Bool
     @Binding var witchObject: String
+    @Binding var shipState: String
     @Binding var canClearChat: Bool
+    @Binding var isLightSpeed: Bool
+
     
     func makeUIView(context: Context) -> SKView {
         let skView = SKView()
         skView.isMultipleTouchEnabled = true
         skView.backgroundColor = .clear
         let sceneSize = CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-        let gameScene = ShipScene( sceneSpeed: $sceneSpeed, shipAppear: $shipAppear, witchObject: $witchObject, canClearChat: $canClearChat)
+        let gameScene = MainScene( sceneSpeed: $sceneSpeed, shipAppear: $shipAppear, witchObject: $witchObject, isShipInView: $shipState, canClearChat: $canClearChat, isLightSpeed: $isLightSpeed)
         gameScene.size = sceneSize
         skView.presentScene(gameScene)
 
@@ -256,7 +288,7 @@ struct ShipSceneView: UIViewRepresentable {
         return Coordinator()
     }
 
-    func updateUIView(_ uiView: ShipScene, context: Context) {
+    func updateUIView(_ uiView: MainScene, context: Context) {
     
     }
     

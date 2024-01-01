@@ -15,6 +15,7 @@ class MainViewMVVM: ObservableObject{
     @Published var shipAppear: Bool = false
     @Published var isLightSpeed: Bool = false
     @Published var witchObject: String = "Anything"
+    @Published var shipState: String = "Inside"
     @Published var canClearChat: Bool = false
     
     @Published var StartButtonProportion = CGFloat(160) / CGFloat(60)
@@ -57,21 +58,21 @@ class MainViewMVVM: ObservableObject{
     }
     
     var backGroundScene: SKScene {
-        let scene = BackGround(sceneSpeed: speedBinding)
+        let scene = BackGroundScene(sceneSpeed: speedBinding)
         scene.size = CGSize(width: 700, height: 500)
         scene.scaleMode = .fill
         return scene
     }
     
     var lightSpeed: SKScene {
-        let scene = LightSpeedScene(sceneSpeed: speedBinding)
+        let scene = LightSpeedSceneScene(sceneSpeed: speedBinding)
         scene.size = CGSize(width: 700, height: 500)
         scene.scaleMode = .fill
         return scene
     }
     
     var reverseBackGround: SKScene {
-        let scene = ReverseBackGround(sceneSpeed: speedBinding)
+        let scene = ReverseBackGroundScene(sceneSpeed: speedBinding)
         scene.size = CGSize(width: 700, height: 500)
         scene.scaleMode = .fill
         return scene

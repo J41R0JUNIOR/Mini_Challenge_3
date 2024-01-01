@@ -1,7 +1,7 @@
 import SpriteKit
 import SwiftUI
 
-class LightSpeedScene: SKScene {
+class LightSpeedSceneScene: SKScene {
     var stars: [SKSpriteNode] = []
     @Binding var sceneSpeed: Double
     var speedToGoBack = 49.0
@@ -130,7 +130,7 @@ struct SpriteKitBackGroundLightSpeed: UIViewRepresentable {
         skView.isMultipleTouchEnabled = true
         skView.backgroundColor = .clear
         let sceneSize = CGSize(width: 700, height: 500)
-        let gameScene = LightSpeedScene(sceneSpeed: $sceneSpeed)
+        let gameScene = LightSpeedSceneScene(sceneSpeed: $sceneSpeed)
         gameScene.size = sceneSize
         skView.presentScene(gameScene)
 
@@ -155,7 +155,7 @@ struct SpriteKitBackGroundLightSpeed: UIViewRepresentable {
         return Coordinator()
     }
 
-    func updateUIView(_ uiView: BackGround, context: Context) {
+    func updateUIView(_ uiView: BackGroundScene, context: Context) {
     
     }
     
