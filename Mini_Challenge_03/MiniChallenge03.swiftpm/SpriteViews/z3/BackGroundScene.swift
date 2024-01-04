@@ -87,7 +87,6 @@ class BackGroundScene: SKScene {
 
                         if let indexToRemove = stars.firstIndex(of: estrelaNode) {
                             stars.remove(at: indexToRemove)
-//                            print(stars.count)
                         }
                     }
                 }

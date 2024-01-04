@@ -39,7 +39,7 @@ extension MainView{
                         Text(chats.initialChat.rawValue)
 //                            .font(.system(size: 40))
 //                            .font(getFont(size: 30))
-                            .font(mainView.customFont.getFont(size: 30))
+                            .font(mainView.customFont.getFont(size: 40))
                             .multilineTextAlignment(.center)
                         //                        .font(Font.custom(<#T##name: String##String#>, size: 40))
                             .foregroundStyle(Color(.texts))

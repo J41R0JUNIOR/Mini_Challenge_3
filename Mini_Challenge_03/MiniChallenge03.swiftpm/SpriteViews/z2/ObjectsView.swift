@@ -43,8 +43,6 @@ class ObjectsView: SKScene {
     }
 
     func scheduleObjectCreation() {
-        print(objectsName.count)
-
         guard let object = self.objectsName.first else {
             return
         }
@@ -52,7 +50,6 @@ class ObjectsView: SKScene {
         self.createObjects(nameOfObject: object)
         self.areThereObjectAtScreen = true
         self.witchObject = object
-        print("witch Object = \(self.witchObject)")
 
         if let indexToRemove = self.objectsName.firstIndex(of: object) {
             self.objectsName.remove(at: indexToRemove)
@@ -97,26 +94,7 @@ class ObjectsView: SKScene {
             objects.first?.colorBlendFactor =  (1 * sceneSpeed) * 2 / 100
         }else{
             objects.first?.colorBlendFactor =  (1 * sceneSpeed) * 1 / 100
-
         }
-        
-//        print(cameraNode.position.x)
-//        let x = objects.first?.position.x ?? CGFloat()
-//        
-//        if x > cameraNode.position.x{
-//            let blueColor = x - 100
-//            
-//            objects.first?.color = SKColor(red: 0, green: 0.0, blue: blueColor, alpha: 1.0)
-//        }else if x < cameraNode.position.x{
-//            let redColor = x - 100
-//            objects.first?.color = SKColor(red: -redColor, green: 0.0, blue: 0, alpha: 1.0)
-//        }
-//
-//       
-//        objects.first?.colorBlendFactor = 1 * sceneSpeed * 3 / 100
-        
-        //
-            
     }
 
     func createObjects(nameOfObject: String) {
@@ -139,7 +117,6 @@ class ObjectsView: SKScene {
         
         objects.append(object)
         addChild(object)
-        print(object.size)
     }
 
 
@@ -154,7 +131,6 @@ class ObjectsView: SKScene {
                     objects.remove(at: indexToRemove)
                     areThereObjectAtScreen = false
                     witchObject = "Anything"
-                    print("witch Object = \(self.witchObject)")
                     canClearChat = true
                 }
             }

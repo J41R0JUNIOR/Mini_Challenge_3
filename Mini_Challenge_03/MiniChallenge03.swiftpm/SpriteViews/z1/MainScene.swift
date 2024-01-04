@@ -16,25 +16,8 @@ class MainScene: SKScene {
     @Binding var canClearChat: Bool
     @Binding var isLightSpeed: Bool
     
-    
     var chat: SKLabelNode = SKLabelNode()
     var chatLabel: SKNode = SKNode(fileNamed: "") ?? SKNode()
-
-
-    init(sceneSpeed: Binding<Double>, shipAppear: Binding<Bool>, witchObject: Binding<String>, isShipInView: Binding<String>, canClearChat: Binding<Bool>, isLightSpeed: Binding<Bool>) {
-        self._sceneSpeed = sceneSpeed
-        self._shipAppear = shipAppear
-        self._witchObject = witchObject
-        self._canClearChat = canClearChat
-        self._isLightSpeed = isLightSpeed
-        self._shipState = isShipInView
-        
-        super.init(size: CGSize(width: 1, height: 1))
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     var isTrue = true
     let cameraNode = SKCameraNode()
@@ -87,6 +70,21 @@ class MainScene: SKScene {
       }()
     
     var characterNode: SKSpriteNode?
+    
+    init(sceneSpeed: Binding<Double>, shipAppear: Binding<Bool>, witchObject: Binding<String>, isShipInView: Binding<String>, canClearChat: Binding<Bool>, isLightSpeed: Binding<Bool>) {
+        self._sceneSpeed = sceneSpeed
+        self._shipAppear = shipAppear
+        self._witchObject = witchObject
+        self._canClearChat = canClearChat
+        self._isLightSpeed = isLightSpeed
+        self._shipState = isShipInView
+        
+        super.init(size: CGSize(width: 1, height: 1))
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func sceneDidLoad() {
         self.scaleMode = .fill
@@ -94,10 +92,7 @@ class MainScene: SKScene {
     }
 
     override func didMove(to view: SKView) {
-        
-        
         self.backgroundColor = .clear
-        
 //        ship.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
         self.addChild(cameraNode)
         cameraNode.position = CGPoint(x: 0, y: 0)
@@ -107,8 +102,6 @@ class MainScene: SKScene {
         ship.zPosition = 1
         addChild(ship)
         ship.position = CGPoint(x: -750 , y: 0)
-//        print(ship.position)
-      
                 
         let moveAction = SKAction.repeatForever(.animate(with: shipTextures, timePerFrame: 0.2))
         moveAction.speed = 0
@@ -173,12 +166,7 @@ class MainScene: SKScene {
         }
     }
     override func update(_ currentTime: TimeInterval) {
-//        print(sceneSpeed)
-        // Supondo que chats seja um enum e witchObject seja uma string
-//
-        callChat()
-//
-        
+        callChat()    
         
         if shipAppear == true{
             moveShip(withSpeed: sceneSpeed)

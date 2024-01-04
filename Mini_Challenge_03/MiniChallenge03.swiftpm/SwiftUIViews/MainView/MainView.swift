@@ -16,6 +16,5 @@ struct MainView: View {
                 }
             }
         }.background(.black)
-        
     }
 }
