@@ -17,6 +17,7 @@ class MainViewMVVM: ObservableObject{
     @Published var witchObject: String = "Anything"
     @Published var shipState: String = "Inside"
     @Published var canClearChat: Bool = false
+    @Published var customFont = Custom()
     
     @Published var StartButtonProportion = CGFloat(160) / CGFloat(60)
     @Published var StartButtonWidth: CGFloat = 200

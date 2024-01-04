@@ -72,8 +72,6 @@ class ObjectsView: SKScene {
         
         if self.witchObject == "Anything" {
             witchObject = "obj in scene"
-
-//            self.scheduleObjectCreation()
             
             let delayAction = SKAction.wait(forDuration: 10)
             let callFunctionAction = SKAction.run { [weak self] in

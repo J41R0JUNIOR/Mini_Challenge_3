@@ -2,8 +2,10 @@ import SpriteKit
 import SwiftUI
 
 enum chats: String{
-    case jupiter = "A luz demora em média 0,4s para dar a volta completa em Júpiter, isso significa que em um segundo ela dá duas voltas em torno do planeta e em um minuto 23 voltas"
-    case earth = "A luz demora em média 0,04s para dar a volta completa na Terra, isso significa que em um segundo ela dá 23 voltas em torno do planeta e em um minuto 1211 voltas"
+    case initialChat = "Essa cena tem o objetivo de simular visualmente alguns efeitos que ocorreriam caso viajássemos próximos e a velocidade da luz."
+    
+    case jupiter = "A luz demora em média 0,4s para dar a volta completa em Júpiter, isso significa que em um segundo ela dá duas voltas em torno do planeta."
+    case earth = "A luz demora em média 0,04s para dar a volta completa na Terra, isso significa que em um segundo ela dá 23 voltas em torno do planeta."
 }
 
 class MainScene: SKScene {
@@ -13,6 +15,10 @@ class MainScene: SKScene {
     @Binding var shipState: String
     @Binding var canClearChat: Bool
     @Binding var isLightSpeed: Bool
+    
+    
+    var chat: SKLabelNode = SKLabelNode()
+    var chatLabel: SKNode = SKNode(fileNamed: "") ?? SKNode()
 
 
     init(sceneSpeed: Binding<Double>, shipAppear: Binding<Bool>, witchObject: Binding<String>, isShipInView: Binding<String>, canClearChat: Binding<Bool>, isLightSpeed: Binding<Bool>) {
@@ -42,7 +48,6 @@ class MainScene: SKScene {
     
     let ship : SKSpriteNode = {
         let object = SKSpriteNode(imageNamed: "im1")
-        
         let proportion = CGFloat(349) / CGFloat(120)
         let width: CGFloat = 200
         let height: CGFloat = width / proportion
@@ -128,27 +133,26 @@ class MainScene: SKScene {
     }
     
     func addChat(text: String){
-        print("foi em")
         print(text)
         chat.text = text
-//        chat.fontSize = 15
+        chat.fontName = "Helvetica-Bold" 
+        chat.fontSize = 30
         chat.fontColor = UIColor(resource: .texts)
         chat.horizontalAlignmentMode = .center
         chat.verticalAlignmentMode = .top
         chat.numberOfLines = 0
-        chat.preferredMaxLayoutWidth = size.width - 40
+        chat.preferredMaxLayoutWidth = size.width * 0.60
         
         if chat.parent == nil{
             addChild(chat)
         }
+        
+        
         chat.position.x = cameraNode.position.x
         chat.position.y = cameraNode.position.y - 180
         
         
     }
-    
-    var chat: SKLabelNode = SKLabelNode()
-
     
     func callChat(){
         if witchObject == "jupiter"{
@@ -218,16 +222,18 @@ class MainScene: SKScene {
             }else{
                 ship.removeAction(forKey: "movingInside")
                 fireNode.removeAction(forKey: "movingInside")
-                shipState = "Mid"
+                shipState = "Middle"
+                
             }
         }else if let widthLength = view?.bounds.width {
                 if ship.position.x < widthLength{
                     if ship.action(forKey: "movingOutside") == nil {
                         //               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
                         let speedFactor = 1
-                        let moveAction = SKAction.moveBy(x: 10 * /*speed **/ CGFloat(speedFactor), y: 0, duration: 0.1)
+                        let moveAction = SKAction.moveBy(x: 10 * CGFloat(speedFactor), y: 0, duration: 0.1)
                         ship.run(moveAction, withKey: "movingOutside")
                         fireNode.run(moveAction, withKey: "movingOutside")
+                        shipState = "movingOutside"
                     }
                 }
                 else{
