@@ -19,7 +19,9 @@ class ObjectsView: SKScene {
         self._sceneSpeed = sceneSpeed
         self._witchObject = witchObject
         self._canClearChat = canClearChat
+        
         super.init(size: CGSize(width: 700, height: 500))
+        scaleMode = .resizeFill
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -31,8 +33,11 @@ class ObjectsView: SKScene {
         view.showsNodeCount = true
         self.backgroundColor = .clear
         cameraNode.setScale(1.0)
+        
         self.camera = cameraNode
-        cameraNode.position.x = -100
+//        cameraNode.position.x = -100
+        
+       
 //        scheduleObjectCreation()
        
 //        let wait = SKAction.wait(forDuration: 10)
@@ -93,7 +98,7 @@ class ObjectsView: SKScene {
                 node.size = CGSize(width: 600, height: 600)
             }
             
-            let x = size.width * 1.2 + 100
+            let x = /*size.width*/ (CGFloat(self.view?.bounds.size.width ?? 700)/2) + (CGFloat(node.size.width )/2)
             node.position = CGPoint(x: x, y: 0)
             return node
         }()
@@ -105,8 +110,8 @@ class ObjectsView: SKScene {
     func removeObjectsOutOfBounds() {
         for object in objects {
             let x = object.position.x
-            let screenWidth = view?.bounds.width ?? 700 + 100
-            if x < -screenWidth/2 {
+            let screenWidth = CGFloat(self.view?.bounds.size.width ?? 700)
+            if x < -screenWidth/2 - (CGFloat(objects.first?.size.width ?? 650)/2) {
                 object.removeFromParent()
 
                 if let indexToRemove = objects.firstIndex(of: object) {
@@ -148,6 +153,8 @@ class ObjectsView: SKScene {
         }
     }
 }
+
+
 
 struct ObjectsSceneView: UIViewRepresentable {
     @Binding var sceneSpeed: Double

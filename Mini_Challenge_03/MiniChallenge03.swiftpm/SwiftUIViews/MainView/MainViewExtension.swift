@@ -49,7 +49,6 @@ extension MainView{
                     
                     Button {
                         mainView.shipAppear = true
-                        print(mainView.shipAppear)
                     } label: {
                         Image("startButtonBlack")
                             .resizable()
