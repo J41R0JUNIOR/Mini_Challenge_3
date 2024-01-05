@@ -49,9 +49,9 @@ struct CharacterView1: UIViewRepresentable {
         let skView = SKView()
         skView.isMultipleTouchEnabled = true
         skView.backgroundColor = .clear
-        let sceneSize = CGSize(width: 700, height: 500)
+//        let sceneSize = CGSize(width: 700, height: 500)
         let gameScene = ChatScene()
-        gameScene.size = sceneSize
+//        gameScene.size = sceneSize
         skView.presentScene(gameScene)
 
         // Save the reference to the scene
@@ -78,7 +78,5 @@ struct CharacterView1: UIViewRepresentable {
     func updateUIView(_ uiView: CharacterView1, context: Context) {
     
     }
-    
-    
 }
 

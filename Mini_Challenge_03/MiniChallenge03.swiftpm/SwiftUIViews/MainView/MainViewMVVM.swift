@@ -60,24 +60,22 @@ class MainViewMVVM: ObservableObject{
     
     var backGroundScene: SKScene {
         let scene = BackGroundScene(sceneSpeed: speedBinding)
-        scene.size = CGSize(width: 700, height: 500)
+//        scene.size = CGSize(width: 700, height: 500)
         scene.scaleMode = .fill
         return scene
     }
     
     var lightSpeed: SKScene {
         let scene = LightSpeedSceneScene(sceneSpeed: speedBinding)
-        scene.size = CGSize(width: 700, height: 500)
+//        scene.size = CGSize(width: 700, height: 500)
         scene.scaleMode = .fill
         return scene
     }
     
     var reverseBackGround: SKScene {
         let scene = ReverseBackGroundScene(sceneSpeed: speedBinding)
-        scene.size = CGSize(width: 700, height: 500)
+//        scene.size = CGSize(width: 700, height: 500)
         scene.scaleMode = .fill
         return scene
     }
-    
-   
 }

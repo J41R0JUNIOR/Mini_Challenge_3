@@ -2,13 +2,15 @@ import SpriteKit
 import SwiftUI
 
 enum chats: String{
-    case initialChat = "Essa cena tem o objetivo de simular visualmente alguns efeitos que ocorreriam caso viajássemos próximos e a velocidade da luz."
+    case initialChat = "Essa cena tem o objetivo de simular visualmente alguns efeitos que ocorreriam caso viajássemos próximos a velocidade da luz."
     
     case jupiter = "A luz demora em média 0,4s para dar a volta completa em Júpiter, isso significa que em um segundo ela dá duas voltas em torno do planeta."
     case earth = "A luz demora em média 0,04s para dar a volta completa na Terra, isso significa que em um segundo ela dá 23 voltas em torno do planeta."
 }
 
 class MainScene: SKScene {
+    
+    //variables to control the entire enviroment
     @Binding var sceneSpeed: Double
     @Binding var shipAppear: Bool
     @Binding var witchObject: String
@@ -16,18 +18,13 @@ class MainScene: SKScene {
     @Binding var canClearChat: Bool
     @Binding var isLightSpeed: Bool
     
+    //variables to the chats cumming from the planets and objects
     var chat: SKLabelNode = SKLabelNode()
-    var chatLabel: SKNode = SKNode(fileNamed: "") ?? SKNode()
+    let chatLabel = SKNode()
+    var square = SKShapeNode()
     
-    var isTrue = true
     let cameraNode = SKCameraNode()
-    
-    
-    let shipTextures = [SKTexture(imageNamed: "im1"),
-                        SKTexture(imageNamed: "im2"),
-                        SKTexture(imageNamed: "im3"),
-                        SKTexture(imageNamed: "im4"),
-                        SKTexture(imageNamed: "im5")]
+    var characterNode: SKSpriteNode?
     
     let ship : SKSpriteNode = {
         let object = SKSpriteNode(imageNamed: "im1")
@@ -39,6 +36,12 @@ class MainScene: SKScene {
         
         return object
     }()
+    
+    let shipTextures = [SKTexture(imageNamed: "im1"),
+                        SKTexture(imageNamed: "im2"),
+                        SKTexture(imageNamed: "im3"),
+                        SKTexture(imageNamed: "im4"),
+                        SKTexture(imageNamed: "im5")]
     
     let fireTextures = [SKTexture(imageNamed: "f1"),
                         SKTexture(imageNamed: "f2"),
@@ -59,17 +62,16 @@ class MainScene: SKScene {
                         SKTexture(imageNamed: "f5gg")]
     
     let fireNode: SKSpriteNode = {
-          let fire = SKSpriteNode(imageNamed: "f1")
-        
+        let fire = SKSpriteNode(imageNamed: "f1")
         let proportion = CGFloat(60) / CGFloat(120)
         let width: CGFloat = 200
         let height: CGFloat = width / proportion
                
         fire.size = CGSize(width: width, height: height)
-          return fire
-      }()
+        return fire
+    }()
     
-    var characterNode: SKSpriteNode?
+    
     
     init(sceneSpeed: Binding<Double>, shipAppear: Binding<Bool>, witchObject: Binding<String>, isShipInView: Binding<String>, canClearChat: Binding<Bool>, isLightSpeed: Binding<Bool>) {
         self._sceneSpeed = sceneSpeed
@@ -93,12 +95,24 @@ class MainScene: SKScene {
 
     override func didMove(to view: SKView) {
         self.backgroundColor = .clear
-//        ship.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
         self.addChild(cameraNode)
         cameraNode.position = CGPoint(x: 0, y: 0)
         cameraNode.setScale(1.0)
         self.camera = cameraNode
     
+        addLabels()
+    }
+    
+    
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        _ = touch.location(in: self)
+        _ = touch.previousLocation(in: self)
+
+    }
+    
+    func addLabels(){
         ship.zPosition = 1
         addChild(ship)
         ship.position = CGPoint(x: -750 , y: 0)
@@ -111,41 +125,41 @@ class MainScene: SKScene {
         moveAction.speed = 0
         
         fireNode.size = CGSize(width: ship.size.width, height: ship.size.height)
-       
-        fireNode.position = CGPoint(x: ship.position.x - ship.size.width /** 0.5*/, y: ship.position.y) // Ajuste conforme necessário
+        fireNode.position = CGPoint(x: ship.position.x - ship.size.width /** 0.5*/, y: ship.position.y)
+        
         self.addChild(fireNode)
         fireNode.run(moveFire, withKey: "moveF")
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-
-        _ = touch.location(in: self)
-        _ = touch.previousLocation(in: self)
-
-    }
-    
-    func addChat(text: String){
+    func addChat(text: String) {
         print(text)
+       
         chat.text = text
-        chat.fontName = "Helvetica-Bold" 
+        chat.fontName = "Helvetica-Bold"
         chat.fontSize = 30
         chat.fontColor = UIColor(resource: .texts)
         chat.horizontalAlignmentMode = .center
-        chat.verticalAlignmentMode = .top
+        chat.verticalAlignmentMode = .center
         chat.numberOfLines = 0
         chat.preferredMaxLayoutWidth = size.width * 0.60
         
-        if chat.parent == nil{
-            addChild(chat)
+      
+        square = SKShapeNode(rectOf: CGSize(width: chat.frame.width + 50, height: chat.frame.height + 50), cornerRadius: 1)
+        square.strokeColor = SKColor.white
+        square.lineWidth = 2.0
+        square.fillColor = .black
+        square.zPosition = -1
+        
+        chatLabel.position.x = cameraNode.position.x
+        chatLabel.position.y = cameraNode.position.y - 180
+
+        if chatLabel.parent == nil && chat.parent == nil && square.parent == nil{
+            chatLabel.addChild(chat)
+            chatLabel.addChild(square)
+            addChild(chatLabel)
         }
-        
-        
-        chat.position.x = cameraNode.position.x
-        chat.position.y = cameraNode.position.y - 180
-        
-        
     }
+
     
     func callChat(){
         if witchObject == "jupiter"{
@@ -160,9 +174,13 @@ class MainScene: SKScene {
         }
         else if witchObject == "Anything"{
             chat.removeFromParent()
+            square.removeFromParent()
+            chatLabel.removeFromParent()
         }
         else if canClearChat == true{
             chat.removeFromParent()
+            square.removeFromParent()
+            chatLabel.removeFromParent()
         }
     }
     override func update(_ currentTime: TimeInterval) {

@@ -65,22 +65,6 @@ class BackGroundScene: SKScene {
 
                     estrelaNode.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
                     estrelaNode.colorBlendFactor = 1 * sceneSpeed / 100
-                    
-//                    if estrelaNode.position.x > cameraNode.position.x{
-//                        let blueColor = estrelaNode.position.x - 100
-//
-//                        estrelaNode.color = SKColor(red: 0, green: 0.0, blue: blueColor, alpha: 1.0)
-//                    }
-//                    else if estrelaNode.position.x < cameraNode.position.x{
-//                        
-//                        let redColor = estrelaNode.position.x - 300
-//                        estrelaNode.color = SKColor(red: -redColor, green: 0.0, blue: 0, alpha: 1.0)
-//                    }
-//
-//                   
-//                    estrelaNode.colorBlendFactor = 1 * sceneSpeed /*/ 100*/
-                    //
-                 
 
                     if x < -(view?.frame.midX ?? -700) || x > (view?.frame.midX ?? -700){
                         estrelaNode.removeFromParent()

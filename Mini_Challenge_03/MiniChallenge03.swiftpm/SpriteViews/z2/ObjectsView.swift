@@ -66,34 +66,17 @@ class ObjectsView: SKScene {
     override func update(_ currentTime: TimeInterval) {
         moveObjects(withSpeed: CGFloat(sceneSpeed))
         removeObjectsOutOfBounds()
+        changeColorsOfObjects()
         
         if self.witchObject == "Anything" {
             witchObject = "obj in scene"
             
-            let delayAction = SKAction.wait(forDuration: 10)
+            let delayAction = SKAction.wait(forDuration: 1)
             let callFunctionAction = SKAction.run { [weak self] in
                 self?.scheduleObjectCreation()
             }
                    
             self.run(SKAction.sequence([delayAction, callFunctionAction]))
-        }
-        
-        //
-        let screenWidth = CGFloat(self.view?.bounds.width ?? 1.0) - 550
-
-        let x = objects.first?.position.x ?? CGFloat()
-        let normalizedX = x / (screenWidth / 2) * sceneSpeed
-
-        
-        
-        let redColor = max(0.0, 1.0 - normalizedX)
-        let blueColor = max(0.0, 1.0 + normalizedX)
-
-        objects.first?.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
-        if sceneSpeed > 40{
-            objects.first?.colorBlendFactor =  (1 * sceneSpeed) * 2 / 100
-        }else{
-            objects.first?.colorBlendFactor =  (1 * sceneSpeed) * 1 / 100
         }
     }
 
@@ -119,7 +102,6 @@ class ObjectsView: SKScene {
         addChild(object)
     }
 
-
     func removeObjectsOutOfBounds() {
         for object in objects {
             let x = object.position.x
@@ -144,6 +126,25 @@ class ObjectsView: SKScene {
                 let moveAction = SKAction.moveBy(x: -10 * (speed * 0.2) * CGFloat(speedFactor), y: 0, duration: 0.1)
                 object.run(moveAction, withKey: "moving")
             }
+        }
+    }
+    
+    func changeColorsOfObjects(){
+        let screenWidth = CGFloat(self.view?.bounds.width ?? 1.0) - 550
+
+        let x = objects.first?.position.x ?? CGFloat()
+        let normalizedX = x / (screenWidth / 2) * sceneSpeed
+
+        
+        
+        let redColor = max(0.0, 1.0 - normalizedX)
+        let blueColor = max(0.0, 1.0 + normalizedX)
+
+        objects.first?.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
+        if sceneSpeed > 40{
+            objects.first?.colorBlendFactor =  (1 * sceneSpeed) * 2 / 100
+        }else{
+            objects.first?.colorBlendFactor =  (1 * sceneSpeed) * 1 / 100
         }
     }
 }
