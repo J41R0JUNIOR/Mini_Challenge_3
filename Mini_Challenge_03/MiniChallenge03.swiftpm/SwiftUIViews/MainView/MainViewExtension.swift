@@ -10,6 +10,7 @@ import SpriteKit
 
 extension MainView{
     
+    
     @ViewBuilder
     var shipView: some View {
         ZStack{
@@ -17,14 +18,22 @@ extension MainView{
                 .ignoresSafeArea()
                 .navigationBarBackButtonHidden()
             
-            if mainView.shipAppear == true{
+            if mainView.shipAppear{
+                HStack{
+                    Spacer()
+                    VStack{
+                        Text("aaa").colorInvert()
+                        Spacer()
+                    }
+                    Spacer()
+                }
                 ObjectsSceneView(sceneSpeed: $mainView.shipSpeed, witchObject: $mainView.witchObject, canClearChat: $mainView.canClearChat)
                 
+                ShipSceneView(sceneSpeed: $mainView.shipSpeed, shipAppear: $mainView.shipAppear, witchObject: $mainView.witchObject, shipState: $mainView.shipState, canClearChat: $mainView.canClearChat, isLightSpeed: $mainView.isLightSpeed)
             }
-            ShipSceneView(sceneSpeed: $mainView.shipSpeed, shipAppear: $mainView.shipAppear, witchObject: $mainView.witchObject, shipState: $mainView.shipState, canClearChat: $mainView.canClearChat, isLightSpeed: $mainView.isLightSpeed)
             
             VStack{
-                if mainView.shipAppear == false{
+                if !mainView.shipAppear{
                     
                     Spacer()
                     
@@ -35,16 +44,14 @@ extension MainView{
                             .border(.white)
                             .frame(maxWidth: 750, maxHeight: 350)
                         
-                        Text(chats.initialChat.rawValue)
+                        Text(Chats.inicialLabel.rawValue)
+                            .font(Font.custom(Chats.fontScene.rawValue, size: mainView.BigFontSize))
 //                            .font(.system(size: 40))
-//                            .font(getFont(size: 30))
-                            .font(mainView.customFont.getFont(size: 40))
+//                            .font(mainView.customFont.getFont(size: 40))
                             .multilineTextAlignment(.center)
-                        //                        .font(Font.custom(<#T##name: String##String#>, size: 40))
                             .foregroundStyle(Color(.texts))
                             .frame(maxWidth: 700, maxHeight: 300)
                     }
-                    
                     Spacer()
                     
                     Button {
@@ -66,14 +73,15 @@ extension MainView{
                             Spacer()
                             
                             HStack{
-                                
                                 VStack{
-                                    Text("Time Perseption")
+                                    Text(Chats.upLeft.rawValue)
+                                        .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
                                         .colorInvert()
+                                    
                                     
                                     Spacer()
                                     
-                                    Slider(value: $mainView.shipSpeed, in: 2.0...50.0, step: 0.1)
+                                    Slider(value: $mainView.shipSpeed, in: 2.0...mainView.maxSpeed, step: 0.1)
                                         .frame(width: 300)
                                         .rotationEffect(.degrees(90))
                                         .padding()
@@ -85,25 +93,27 @@ extension MainView{
                                 Spacer()
                                 
                                 VStack{
-                                    if mainView.shipSpeed == 50{
+                                    if mainView.shipSpeed == mainView.maxSpeed{
                                         Button {
                                             mainView.isLightSpeed.toggle()
                                             
                                         } label:{
-                                            Text("LightSpeed")
-                                            
+                                            Text(Chats.lightSpeedButton.rawValue)
+                                                .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
                                         }
                                     }else{
                                         Text(" ")
+                                            .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
                                         
                                     }
                                     
-                                    Text("ship speed \n \(mainView.shipSpeed)")
+                                    Text("\(Chats.upRight.rawValue) \n \(mainView.calculateRealSpeed(mainView.shipSpeed)) km/s")
+                                        .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
                                         .colorInvert()
                                     
                                     Spacer()
                                     
-                                    Slider(value: $mainView.shipSpeed, in: 2.0...50.0, step: 0.1)
+                                    Slider(value: $mainView.shipSpeed, in: 2.0...mainView.maxSpeed, step: 0.1)
                                         .frame(width: 300)
                                         .rotationEffect(.degrees(-90))
                                         .padding()

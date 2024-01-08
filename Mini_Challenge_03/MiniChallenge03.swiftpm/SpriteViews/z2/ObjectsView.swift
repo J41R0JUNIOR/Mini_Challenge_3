@@ -20,7 +20,7 @@ class ObjectsView: SKScene {
         self._witchObject = witchObject
         self._canClearChat = canClearChat
         
-        super.init(size: CGSize(width: 700, height: 500))
+        super.init(size: CGSize())
         scaleMode = .resizeFill
     }
 
@@ -32,19 +32,12 @@ class ObjectsView: SKScene {
         view.showsFPS = true
         view.showsNodeCount = true
         self.backgroundColor = .clear
+        self.addChild(cameraNode)
+        cameraNode.position = CGPoint(x: 0, y: 0)
         cameraNode.setScale(1.0)
-        
         self.camera = cameraNode
-//        cameraNode.position.x = -100
         
-       
-//        scheduleObjectCreation()
-       
-//        let wait = SKAction.wait(forDuration: 10)
-//        let repeatAction = SKAction.repeatForever(SKAction.sequence([wait, SKAction.run {
-//            self.scheduleObjectCreation()
-//        }]))
-//        self.run(repeatAction)
+      
     }
 
     func scheduleObjectCreation() {
@@ -145,11 +138,53 @@ class ObjectsView: SKScene {
         let redColor = max(0.0, 1.0 - normalizedX)
         let blueColor = max(0.0, 1.0 + normalizedX)
 
+        let viewW = (view?.bounds.size.width ?? CGFloat(200))
+        
         objects.first?.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
-        if sceneSpeed > 40{
-            objects.first?.colorBlendFactor =  (1 * sceneSpeed) * 2 / 100
-        }else{
-            objects.first?.colorBlendFactor =  (1 * sceneSpeed) * 1 / 100
+        
+//        if sceneSpeed > 40{
+            
+            //tem que multiplicar pelo módulo de X
+            
+            
+            if let po = objects.first?.position.x{
+                //porcentagem da tela de acordo com o objeto na tela
+                let percentT = abs((po * 100) / (viewW/2) / 100)
+//                print(percentT)
+                let percentV = abs(((sceneSpeed * 100) / 50) / 100)
+                
+                let value =  ((percentT + percentV) / 2)
+                
+                print(value)
+                
+                objects.first?.colorBlendFactor = /* (0.5 * sceneSpeed) * abs(x / 100)*/ value
+
+                
+            }
+            
+            
+            //              width/2
+            //         -tam |--- 0 ---| +tam
+            
+            
+            
+            //          tamTela = 100%
+            //          posicaoXObj = x%
+            
+            
+//        }else{
+//            objects.first?.colorBlendFactor =  (0.5 * sceneSpeed) * 1 / 100
+//        }
+        
+        let mult = 0.1
+        
+        if objects.first?.position.x ?? CGFloat() < viewW * mult && objects.first?.position.x ?? CGFloat() > -viewW * mult{
+//            print("é dentro")
+            objects.first?.colorBlendFactor = 0
+//            print("positionX",objects.first?.position.x)
+//            print("view",viewW)
+//            print("-view",-viewW)
+            
         }
     }
 }

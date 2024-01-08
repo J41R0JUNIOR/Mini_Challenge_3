@@ -14,7 +14,7 @@ class BackGroundScene: SKScene {
 
     init(sceneSpeed: Binding<Double>) {
         self._sceneSpeed = sceneSpeed
-        super.init(size: CGSize(width: 700, height: 500))
+        super.init(size: CGSize())
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -38,44 +38,46 @@ class BackGroundScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
-            moveStars(withSpeed: CGFloat(sceneSpeed))
+        moveStars(withSpeed: CGFloat(sceneSpeed))
+        
+        let speedMultiplier = 1.0 + CGFloat(sceneSpeed)
+        starCreationRate = max(0.5 / speedMultiplier, 0.000001)
+        
+        if currentTime - lastStarCreationTime > starCreationRate {
+            createStars()
+            lastStarCreationTime = currentTime
+        }
+        updateStarState()
+        
+    }
+    
+    func updateStarState(){
+        for (_, estrela) in self.children.enumerated().reversed() {
+            if let estrelaNode = estrela as? SKSpriteNode {
+                updateStarWidth(estrelaNode: estrelaNode)
+                let x = estrelaNode.position.x
+                
+                //
+                let screenWidth = CGFloat(self.view?.bounds.width ?? 1.0) - 550
 
-            let speedMultiplier = 1.0 + CGFloat(sceneSpeed)
-            starCreationRate = max(0.5 / speedMultiplier, 0.000001)
+                let normalizedX = x / (screenWidth / 2) * sceneSpeed
 
-            if currentTime - lastStarCreationTime > starCreationRate {
-                createStars()
-                lastStarCreationTime = currentTime
-            }
+                let redColor = max(0.0, 1.0 - normalizedX)
+                let blueColor = max(0.0, 1.0 + normalizedX)
 
-            for (_, estrela) in self.children.enumerated().reversed() {
-                if let estrelaNode = estrela as? SKSpriteNode {
-                    updateStarWidth(estrelaNode: estrelaNode)
-                    let x = estrelaNode.position.x
-                    
-                    //
-                    let screenWidth = CGFloat(self.view?.bounds.width ?? 1.0) - 550
+                estrelaNode.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
+                estrelaNode.colorBlendFactor = 1 * sceneSpeed / 100
 
-                    let normalizedX = x / (screenWidth / 2) * sceneSpeed
+                if x < -(view?.frame.midX ?? -700) || x > (view?.frame.midX ?? -700){
+                    estrelaNode.removeFromParent()
 
-                    
-                    
-                    let redColor = max(0.0, 1.0 - normalizedX)
-                    let blueColor = max(0.0, 1.0 + normalizedX)
-
-                    estrelaNode.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
-                    estrelaNode.colorBlendFactor = 1 * sceneSpeed / 100
-
-                    if x < -(view?.frame.midX ?? -700) || x > (view?.frame.midX ?? -700){
-                        estrelaNode.removeFromParent()
-
-                        if let indexToRemove = stars.firstIndex(of: estrelaNode) {
-                            stars.remove(at: indexToRemove)
-                        }
+                    if let indexToRemove = stars.firstIndex(of: estrelaNode) {
+                        stars.remove(at: indexToRemove)
                     }
                 }
             }
         }
+    }
 
     func createStars() {
         let star: SKSpriteNode = {

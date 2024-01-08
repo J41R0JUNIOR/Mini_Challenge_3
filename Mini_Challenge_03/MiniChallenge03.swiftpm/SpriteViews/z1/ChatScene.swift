@@ -10,6 +10,7 @@ import SpriteKit
 import SwiftUI
 
 class ChatScene: SKScene {
+    let cameraNode = SKCameraNode()
   
     var eistein: SKSpriteNode = {
         let object = SKSpriteNode(imageNamed: "einstein")
@@ -17,14 +18,14 @@ class ChatScene: SKScene {
         return object
     }()
     
-    let cameraNode = SKCameraNode()
+   
 
     override func didMove(to view: SKView) {
         backgroundColor = .clear
-        eistein.position = CGPoint(x: 500, y: 0)
+//        eistein.position = CGPoint(x: 0, y: 0)
         addChild(eistein)
         self.addChild(cameraNode)
-        cameraNode.position.x = eistein.position.x - 250
+        cameraNode.position.x = eistein.position.x
         cameraNode.position.y = eistein.position.y
         cameraNode.setScale(1.0)
         self.camera = cameraNode
@@ -49,9 +50,9 @@ struct CharacterView1: UIViewRepresentable {
         let skView = SKView()
         skView.isMultipleTouchEnabled = true
         skView.backgroundColor = .clear
-//        let sceneSize = CGSize(width: 700, height: 500)
+        let sceneSize = CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         let gameScene = ChatScene()
-//        gameScene.size = sceneSize
+        gameScene.size = sceneSize
         skView.presentScene(gameScene)
 
         // Save the reference to the scene

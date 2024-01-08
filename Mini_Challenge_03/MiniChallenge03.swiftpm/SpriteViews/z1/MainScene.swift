@@ -1,13 +1,6 @@
 import SpriteKit
 import SwiftUI
 
-enum chats: String{
-    case initialChat = "Essa cena tem o objetivo de simular visualmente alguns efeitos que ocorreriam caso viajássemos próximos a velocidade da luz."
-    
-    case jupiter = "A luz demora em média 0,4s para dar a volta completa em Júpiter, isso significa que em um segundo ela dá duas voltas em torno do planeta."
-    case earth = "A luz demora em média 0,04s para dar a volta completa na Terra, isso significa que em um segundo ela dá 23 voltas em torno do planeta."
-}
-
 class MainScene: SKScene {
     
     //variables to control the entire enviroment
@@ -81,7 +74,7 @@ class MainScene: SKScene {
         self._isLightSpeed = isLightSpeed
         self._shipState = isShipInView
         
-        super.init(size: CGSize(width: 1, height: 1))
+        super.init(size: CGSize())
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -100,10 +93,19 @@ class MainScene: SKScene {
         cameraNode.setScale(1.0)
         self.camera = cameraNode
     
+      
         addLabels()
     }
     
-    
+    override func update(_ currentTime: TimeInterval) {
+        callChat()
+        
+        if shipAppear == true{
+            moveShip(withSpeed: sceneSpeed)
+        }
+        
+        changeFire()
+    }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
@@ -112,84 +114,7 @@ class MainScene: SKScene {
 
     }
     
-    func addLabels(){
-        ship.zPosition = 1
-        addChild(ship)
-        ship.position = CGPoint(x: -750 , y: 0)
-                
-        let moveAction = SKAction.repeatForever(.animate(with: shipTextures, timePerFrame: 0.2))
-        moveAction.speed = 0
-        ship.run(moveAction, withKey: "move")
-        
-        let moveFire = SKAction.repeatForever(.animate(with: fireTextures, timePerFrame: 0.2))
-        moveAction.speed = 0
-        
-        fireNode.size = CGSize(width: ship.size.width, height: ship.size.height)
-        fireNode.position = CGPoint(x: ship.position.x - ship.size.width /** 0.5*/, y: ship.position.y)
-        
-        self.addChild(fireNode)
-        fireNode.run(moveFire, withKey: "moveF")
-    }
-    
-    func addChat(text: String) {
-        print(text)
-       
-        chat.text = text
-        chat.fontName = "Helvetica-Bold"
-        chat.fontSize = 30
-        chat.fontColor = UIColor(resource: .texts)
-        chat.horizontalAlignmentMode = .center
-        chat.verticalAlignmentMode = .center
-        chat.numberOfLines = 0
-        chat.preferredMaxLayoutWidth = size.width * 0.60
-        
-      
-        square = SKShapeNode(rectOf: CGSize(width: chat.frame.width + 50, height: chat.frame.height + 50), cornerRadius: 1)
-        square.strokeColor = SKColor.white
-        square.lineWidth = 2.0
-        square.fillColor = .black
-        square.zPosition = -1
-        
-        chatLabel.position.x = cameraNode.position.x
-        chatLabel.position.y = cameraNode.position.y - 180
-
-        if chatLabel.parent == nil && chat.parent == nil && square.parent == nil{
-            chatLabel.addChild(chat)
-            chatLabel.addChild(square)
-            addChild(chatLabel)
-        }
-    }
-
-    
-    func callChat(){
-        if witchObject == "jupiter"{
-            witchObject = "obj in scene"
-            addChat(text: chats.jupiter.rawValue)
-            
-        }
-        else if witchObject == "earth"{
-            witchObject = "obj in scene"
-            addChat(text: chats.earth.rawValue)
-            
-        }
-        else if witchObject == "Anything"{
-            chat.removeFromParent()
-            square.removeFromParent()
-            chatLabel.removeFromParent()
-        }
-        else if canClearChat == true{
-            chat.removeFromParent()
-            square.removeFromParent()
-            chatLabel.removeFromParent()
-        }
-    }
-    override func update(_ currentTime: TimeInterval) {
-        callChat()    
-        
-        if shipAppear == true{
-            moveShip(withSpeed: sceneSpeed)
-        }
-        
+    func changeFire(){
         if sceneSpeed >= 50{
             if fireNode.action(forKey: "moveFireGG") == nil {
                 let moveFireGG = SKAction.repeatForever(.animate(with: fireTexturesGG, timePerFrame: 0.1))
@@ -214,12 +139,82 @@ class MainScene: SKScene {
         }
     }
     
+    func addLabels(){
+        ship.zPosition = 1
+        addChild(ship)
+        ship.position = CGPoint(x: -750 , y: 0)
+                
+        let moveAction = SKAction.repeatForever(.animate(with: shipTextures, timePerFrame: 0.2))
+        moveAction.speed = 0
+        ship.run(moveAction, withKey: "move")
+        
+        let moveFire = SKAction.repeatForever(.animate(with: fireTextures, timePerFrame: 0.2))
+        moveAction.speed = 0
+        
+        fireNode.size = CGSize(width: ship.size.width, height: ship.size.height)
+        fireNode.position = CGPoint(x: ship.position.x - ship.size.width /** 0.5*/, y: ship.position.y)
+        
+        self.addChild(fireNode)
+        fireNode.run(moveFire, withKey: "moveF")
+    }
+    
+    func addChat(text: String) {
+        print(text)
+        chat.text = text
+//        chat.fontName = "Helvetica-Bold"
+        chat.fontName = Chats.fontScene.rawValue
+        chat.fontSize = 30
+        chat.fontColor = UIColor(resource: .texts)
+        chat.horizontalAlignmentMode = .center
+        chat.verticalAlignmentMode = .center
+        chat.numberOfLines = 0
+        chat.preferredMaxLayoutWidth = size.width * 0.60
+      
+        square = SKShapeNode(rectOf: CGSize(width: chat.frame.width + 50, height: chat.frame.height + 50), cornerRadius: 1)
+        square.strokeColor = SKColor.white
+        square.lineWidth = 2.0
+        square.fillColor = .black
+        square.zPosition = -1
+        
+        chatLabel.position.x = cameraNode.position.x
+        chatLabel.position.y = -(CGFloat(self.view?.bounds.size.height ?? 700)/2) + ((chat.frame.height * 1.2) / 2)
+
+        if chatLabel.parent == nil && chat.parent == nil && square.parent == nil{
+            chatLabel.addChild(chat)
+            chatLabel.addChild(square)
+            addChild(chatLabel)
+        }
+    }
+
+    func callChat(){
+        if witchObject == "jupiter"{
+            witchObject = "obj in scene"
+            addChat(text: Chats.jupiter.rawValue)
+            
+        }
+        else if witchObject == "earth"{
+            witchObject = "obj in scene"
+            addChat(text: Chats.earth.rawValue)
+            
+        }
+        else if witchObject == "Anything"{
+            chat.removeFromParent()
+            square.removeFromParent()
+            chatLabel.removeFromParent()
+        }
+        else if canClearChat == true{
+            chat.removeFromParent()
+            square.removeFromParent()
+            chatLabel.removeFromParent()
+        }
+    }
+    
     func moveShip(withSpeed speed: CGFloat) {
         
         if !isLightSpeed{
             if (ship.position.x < 0) {
                 if ship.action(forKey: "movingInside") == nil {
-                    //               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
+//               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
                     let speedFactor = 1
                     let moveAction = SKAction.moveBy(x: 10 * speed * CGFloat(speedFactor), y: 0, duration: 0.1)
                     ship.run(moveAction, withKey: "movingInside")
@@ -229,28 +224,27 @@ class MainScene: SKScene {
                 ship.removeAction(forKey: "movingInside")
                 fireNode.removeAction(forKey: "movingInside")
                 shipState = "Middle"
-                
             }
         }else if let widthLength = view?.bounds.width {
-                if ship.position.x < widthLength{
-                    if ship.action(forKey: "movingOutside") == nil {
-                        //               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
-                        let speedFactor = 1
-                        let moveAction = SKAction.moveBy(x: 10 * CGFloat(speedFactor), y: 0, duration: 0.1)
-                        ship.run(moveAction, withKey: "movingOutside")
-                        fireNode.run(moveAction, withKey: "movingOutside")
-                        shipState = "movingOutside"
-                    }
+            if ship.position.x < widthLength{
+                if ship.action(forKey: "movingOutside") == nil {
+//               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
+                    let speedFactor = 2
+                    let moveAction = SKAction.moveBy(x: 10 * CGFloat(speedFactor), y: 0, duration: 0.1)
+                    ship.run(moveAction, withKey: "movingOutside")
+                    fireNode.run(moveAction, withKey: "movingOutside")
+                    shipState = "movingOutside"
                 }
-                else{
+            }
+            else{
 //                    ship.action(forKey: "Outside")
-                    shipState = "Outside"
-                }
+                shipState = "Outside"
+            }
 //                else{
 //                    ship.removeFromParent()
 //                    fireNode.removeFromParent()
 //                }
-            }
+        }
         
     }
     
