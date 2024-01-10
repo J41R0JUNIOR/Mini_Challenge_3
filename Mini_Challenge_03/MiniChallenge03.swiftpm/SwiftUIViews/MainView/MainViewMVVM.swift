@@ -29,6 +29,29 @@ class MainViewMVVM: ObservableObject{
     var maxSpeed: Double = 50.0
     var maxWidth = 700
     var maxHeight = 500
+    var maxSpeedOfLight:Double = 299792
+    
+    
+    @Published var accelerationTimer: Timer?
+
+    func accelerateShip(canAccelerate: Bool) {
+        if canAccelerate {
+            accelerationTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
+                guard let self = self else { return }
+
+                if self.shipSpeed < self.maxSpeed {
+                    self.shipSpeed += 0.1
+                }
+            }
+        } else {
+            accelerationTimer?.invalidate()
+            accelerationTimer = nil
+        }
+    }
+
+
+
+
 
     var speedBinding: Binding<Double> {
         Binding(
@@ -90,11 +113,20 @@ class MainViewMVVM: ObservableObject{
     
      func calculateRealSpeed(_ speed: Double) -> Int {
         // Assuming the slider represents a speed factor, and 50 is the maximum speed factor
-        let maxSpeedFactor = maxSpeed
-
+       
         // Calculate real speed in km/s
-        let realSpeed = Int(speed * 300000 / maxSpeedFactor)
+        let realSpeed = Int(speed * maxSpeedOfLight / maxSpeed)
 
         return realSpeed
     }
+    
+    func calculateShowSpeed(speed: Double) -> Int {
+        
+        let x =  speed * 300 / maxSpeed
+        return Int(x)
+    }
 }
+
+#Preview(body: {
+    MainView() as any View
+})

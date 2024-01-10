@@ -155,7 +155,7 @@ class ObjectsView: SKScene {
                 
                 let value =  ((percentT + percentV) / 2)
                 
-                print(value)
+//                print(value)
                 
                 objects.first?.colorBlendFactor = /* (0.5 * sceneSpeed) * abs(x / 100)*/ value
 

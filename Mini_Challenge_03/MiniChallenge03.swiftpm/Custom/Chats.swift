@@ -8,6 +8,7 @@
 import Foundation
 
 enum Chats: String{
+    //custom font
     case fontScene = "NFPixels-Regular"
     
     //strings mainView

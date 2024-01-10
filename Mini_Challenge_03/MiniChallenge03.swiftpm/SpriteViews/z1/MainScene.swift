@@ -74,7 +74,7 @@ class MainScene: SKScene {
         self._isLightSpeed = isLightSpeed
         self._shipState = isShipInView
         
-        super.init(size: CGSize())
+        super.init(size: .init(width: 1, height: 1))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -177,7 +177,7 @@ class MainScene: SKScene {
         square.zPosition = -1
         
         chatLabel.position.x = cameraNode.position.x
-        chatLabel.position.y = -(CGFloat(self.view?.bounds.size.height ?? 700)/2) + ((chat.frame.height * 1.2) / 2)
+        chatLabel.position.y = -(CGFloat(self.view?.bounds.size.height ?? 700) / 2) + ((chat.frame.height * 1.2) / 2)
 
         if chatLabel.parent == nil && chat.parent == nil && square.parent == nil{
             chatLabel.addChild(chat)

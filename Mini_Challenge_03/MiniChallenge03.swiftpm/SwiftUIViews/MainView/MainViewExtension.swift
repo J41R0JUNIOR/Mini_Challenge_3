@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SpriteKit
+import UIKit
 
 extension MainView{
     
@@ -46,8 +47,8 @@ extension MainView{
                         
                         Text(Chats.inicialLabel.rawValue)
                             .font(Font.custom(Chats.fontScene.rawValue, size: mainView.BigFontSize))
-//                            .font(.system(size: 40))
-//                            .font(mainView.customFont.getFont(size: 40))
+                        //                            .font(.system(size: 40))
+                        //                            .font(mainView.customFont.getFont(size: 40))
                             .multilineTextAlignment(.center)
                             .foregroundStyle(Color(.texts))
                             .frame(maxWidth: 700, maxHeight: 300)
@@ -84,7 +85,7 @@ extension MainView{
                                     Slider(value: $mainView.shipSpeed, in: 2.0...mainView.maxSpeed, step: 0.1)
                                         .frame(width: 300)
                                         .rotationEffect(.degrees(90))
-                                        .padding()
+//                                        .padding()
                                         .tint(.clear)
                                     
                                     Spacer()
@@ -106,28 +107,57 @@ extension MainView{
                                             .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
                                         
                                     }
-                                    
-                                    Text("\(Chats.upRight.rawValue) \n \(mainView.calculateRealSpeed(mainView.shipSpeed)) km/s")
-                                        .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
-                                        .colorInvert()
+                                    ZStack{
+                                        SpeedCounter(startAngle: .degrees(0), endAngle: .degrees(300), clockWise: false)
+                                            .stroke(.gray, style: StrokeStyle(lineWidth: 10.5, lineCap: .round, lineJoin: .round))
+                                            .frame(width: 100, height: 100)
+                                        
+                                        SpeedCounter(startAngle: .degrees(0), endAngle: .degrees(Double(mainView.calculateShowSpeed(speed: mainView.shipSpeed))), clockWise: false)
+                                            .stroke(.linearGradient(colors: [/*Color(.color1), */Color(.color2), Color(.color3)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 10.5, lineCap: .round, lineJoin: .round))
+                                            .frame(width: 100, height: 100)
+                                        
+                                        VStack{
+                                            Text("\(mainView.calculateRealSpeed(mainView.shipSpeed))")
+                                                .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
+                                                .colorInvert()
+                                            
+                                        }
+                                    }
+                                    Text(Chats.upRight.rawValue)
                                     
                                     Spacer()
                                     
-                                    Slider(value: $mainView.shipSpeed, in: 2.0...mainView.maxSpeed, step: 0.1)
-                                        .frame(width: 300)
-                                        .rotationEffect(.degrees(-90))
-                                        .padding()
+//                                    Slider(value: $mainView.shipSpeed, in: 2.0...mainView.maxSpeed, step: 0.1)
+//                                        .frame(width: 300)
+//                                        .rotationEffect(.degrees(-90))
+//                                        .padding()
+                                    
+                                    Button(action: {
+                                        
+                                    }, label: {
+                                        Text("Acelerar")
+                                            .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
+                                            .foregroundStyle(.white)
+                                    }).padding()
+                                    .onLongPressGesture(minimumDuration: 1) {
+                                        mainView.accelerateShip(canAccelerate: true)
+                                    } onPressingChanged: { inProgress in
+                                        if inProgress {
+                                            mainView.accelerateShip(canAccelerate: true)
+                                        }else{
+                                            print("tá falso essa porra")
+                                            mainView.accelerateShip(canAccelerate: false)
+                                        }
+                                    }.padding()
                                     
                                     Spacer()
-                                    
                                 }
-                            }
+                            }.padding()
                         }
+                        Spacer()
                     }
-                    Spacer()
                 }
             }
         }
     }
 }
-
