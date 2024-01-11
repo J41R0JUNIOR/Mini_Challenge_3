@@ -23,7 +23,9 @@ extension MainView{
                 HStack{
                     Spacer()
                     VStack{
-                        Text("aaa").colorInvert()
+                        Text("Hora atual: \(Date().formatted(date: .omitted, time: .complete))").colorInvert()
+                        Text("Hora da nave: ").colorInvert()
+                        Text("Diferenca: \(mainView.date.formatted(date: .omitted, time: .complete))").colorInvert()
                         Spacer()
                     }
                     Spacer()
@@ -82,11 +84,31 @@ extension MainView{
                                     
                                     Spacer()
                                     
-                                    Slider(value: $mainView.shipSpeed, in: 2.0...mainView.maxSpeed, step: 0.1)
-                                        .frame(width: 300)
-                                        .rotationEffect(.degrees(90))
-//                                        .padding()
-                                        .tint(.clear)
+//                                    Slider(value: $mainView.shipSpeed, in: 2.0...mainView.maxSpeed, step: 0.1)
+//                                        .frame(width: 300)
+//                                        .rotationEffect(.degrees(90))
+////                                        .padding()
+//                                        .tint(.clear)
+                                    
+                                    Button(action: {
+                                        
+                                    }, label: {
+                                        Text("Frear")
+                                            .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
+                                            .foregroundStyle(.white)
+                                    }).padding()
+                                    .onLongPressGesture(minimumDuration: 1) {
+                                        mainView.breakShip(canBreak: true)
+                                    } onPressingChanged: { inProgress in
+                                        
+                                        mainView.breakShip(canBreak: false)
+                                        
+                                        if inProgress {
+                                            mainView.breakShip(canBreak: true)
+                                        }else{
+                                            mainView.breakShip(canBreak: false)
+                                        }
+                                    }.padding()
                                     
                                     Spacer()
                                 }
@@ -142,10 +164,13 @@ extension MainView{
                                     .onLongPressGesture(minimumDuration: 1) {
                                         mainView.accelerateShip(canAccelerate: true)
                                     } onPressingChanged: { inProgress in
+                                        
+                                        mainView.accelerateShip(canAccelerate: false)
+                                        
                                         if inProgress {
                                             mainView.accelerateShip(canAccelerate: true)
                                         }else{
-                                            print("tá falso essa porra")
+                                            
                                             mainView.accelerateShip(canAccelerate: false)
                                         }
                                     }.padding()
@@ -158,6 +183,12 @@ extension MainView{
                     }
                 }
             }
+        }.onAppear {
+            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+                let timeDifference = mainView.calculateTimeDifference(speed: Double(mainView.calculateRealSpeed(mainView.shipSpeed)), currentTime: Date())
+                mainView.date = timeDifference
+            }
         }
+
     }
 }

@@ -15,6 +15,7 @@ class MainViewMVVM: ObservableObject{
     
     @Published var shipAppear: Bool = false
     @Published var isLightSpeed: Bool = false
+    
     @Published var witchObject: String = "Anything"
     @Published var shipState: String = "Inside"
     @Published var canClearChat: Bool = false
@@ -27,13 +28,17 @@ class MainViewMVVM: ObservableObject{
     @Published var StartButtonWidth: CGFloat = 200
     
     var maxSpeed: Double = 50.0
+    var minSpeed: Double = 2.0
     var maxWidth = 700
     var maxHeight = 500
-    var maxSpeedOfLight:Double = 299792
-    
+    var maxSpeedInScene:Double = 290000
+    var speedOfLight: Double = 299792
     
     @Published var accelerationTimer: Timer?
+    @Published var breakTimer: Timer?
 
+    
+    
     func accelerateShip(canAccelerate: Bool) {
         if canAccelerate {
             accelerationTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
@@ -48,8 +53,22 @@ class MainViewMVVM: ObservableObject{
             accelerationTimer = nil
         }
     }
+    
+    func breakShip(canBreak: Bool) {
+        if canBreak {
+            breakTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
+                guard let self = self else { return }
 
-
+                if self.shipSpeed > self.minSpeed {
+                    self.shipSpeed -= 0.3
+                    accelerateShip(canAccelerate: false)
+                }
+            }
+        } else {
+            breakTimer?.invalidate()
+            breakTimer = nil
+        }
+    }
 
 
 
@@ -112,10 +131,7 @@ class MainViewMVVM: ObservableObject{
     
     
      func calculateRealSpeed(_ speed: Double) -> Int {
-        // Assuming the slider represents a speed factor, and 50 is the maximum speed factor
-       
-        // Calculate real speed in km/s
-        let realSpeed = Int(speed * maxSpeedOfLight / maxSpeed)
+        let realSpeed = Int(speed * maxSpeedInScene / maxSpeed)
 
         return realSpeed
     }
@@ -125,6 +141,19 @@ class MainViewMVVM: ObservableObject{
         let x =  speed * 300 / maxSpeed
         return Int(x)
     }
+    
+    var date: Date =  Date()
+    
+    func calculateTimeDifference(speed: Double, currentTime: Date) -> Date {
+        let relativisticFactor = 1 / sqrt(1 - (pow(speed, 2) / pow(maxSpeedInScene, 2)))
+        let dilatedTimeInterval = currentTime.timeIntervalSinceReferenceDate * relativisticFactor
+        
+        let dilatedDate = Date(timeIntervalSinceReferenceDate: dilatedTimeInterval)
+
+        return dilatedDate
+    }
+
+    
 }
 
 #Preview(body: {
