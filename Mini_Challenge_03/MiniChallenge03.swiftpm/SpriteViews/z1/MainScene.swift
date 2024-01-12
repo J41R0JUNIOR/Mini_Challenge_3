@@ -228,12 +228,14 @@ class MainScene: SKScene {
         }else if let widthLength = view?.bounds.width {
             if ship.position.x < widthLength{
                 if ship.action(forKey: "movingOutside") == nil {
-//               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
+                    //               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
                     let speedFactor = 2
                     let moveAction = SKAction.moveBy(x: 10 * CGFloat(speedFactor), y: 0, duration: 0.1)
                     ship.run(moveAction, withKey: "movingOutside")
                     fireNode.run(moveAction, withKey: "movingOutside")
                     shipState = "movingOutside"
+                    sceneSpeed = 100
+                
                 }
             }
             else{

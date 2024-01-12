@@ -131,7 +131,7 @@ class ObjectsView: SKScene {
         let screenWidth = CGFloat(self.view?.bounds.width ?? 1.0) - 550
 
         let x = objects.first?.position.x ?? CGFloat()
-        let normalizedX = x / (screenWidth / 2) * sceneSpeed
+        let normalizedX = x / (screenWidth / 2) * sceneSpeed - 2
 
         
         

@@ -27,7 +27,7 @@ class MainViewMVVM: ObservableObject{
     @Published var StartButtonProportion = CGFloat(160) / CGFloat(60)
     @Published var StartButtonWidth: CGFloat = 200
     
-    var maxSpeed: Double = 50.0
+    var maxSpeed: Double = 50
     var minSpeed: Double = 2.0
     var maxWidth = 700
     var maxHeight = 500

@@ -77,12 +77,13 @@ extension MainView{
                             
                             HStack{
                                 VStack{
+//                                    Spacer()
                                     Text(Chats.upLeft.rawValue)
                                         .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
                                         .colorInvert()
                                     
                                     
-                                    Spacer()
+//                                    Spacer()
                                     
 //                                    Slider(value: $mainView.shipSpeed, in: 2.0...mainView.maxSpeed, step: 0.1)
 //                                        .frame(width: 300)
@@ -90,6 +91,30 @@ extension MainView{
 ////                                        .padding()
 //                                        .tint(.clear)
                                     
+                                    Text("Normal")
+                                        .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
+                                        .foregroundStyle(.white)
+                                    ZStack{
+                                        let h: CGFloat = 200
+                                        let w: CGFloat = 25
+                                        
+                                        let x = ((200 * mainView.shipSpeed) / 50) - 4
+                                      
+                                        
+                                        Rec(y: 0)
+                                            .frame(width: w, height: h)
+                                            .foregroundColor(.clear)
+                                            .border(.white, width: 3)
+                                            
+                                        Rec(y: x)
+                                            .frame(width: w * 0.87 , height: h * 0.98)
+                                            .foregroundColor(.red)
+                                    }
+                                    Text("∞")
+                                        .font(.system(size: 30))
+                                        .foregroundStyle(.white)
+                                    
+                                    Spacer()
                                     Button(action: {
                                         
                                     }, label: {
@@ -116,19 +141,7 @@ extension MainView{
                                 Spacer()
                                 
                                 VStack{
-                                    if mainView.shipSpeed == mainView.maxSpeed{
-                                        Button {
-                                            mainView.isLightSpeed.toggle()
-                                            
-                                        } label:{
-                                            Text(Chats.lightSpeedButton.rawValue)
-                                                .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
-                                        }
-                                    }else{
-                                        Text(" ")
-                                            .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
-                                        
-                                    }
+                                    
                                     ZStack{
                                         SpeedCounter(startAngle: .degrees(0), endAngle: .degrees(300), clockWise: false)
                                             .stroke(.gray, style: StrokeStyle(lineWidth: 10.5, lineCap: .round, lineJoin: .round))
@@ -153,6 +166,20 @@ extension MainView{
 //                                        .frame(width: 300)
 //                                        .rotationEffect(.degrees(-90))
 //                                        .padding()
+                                    
+                                    
+                                    if mainView.shipSpeed >= mainView.maxSpeed{
+                                        Button {
+                                            mainView.isLightSpeed.toggle()
+                                        } label:{
+                                            Text(Chats.lightSpeedButton.rawValue)
+                                                .font(Font.custom(Chats.fontScene.rawValue, size: mainView.NormalFontSize))
+                                        }
+                                    }else{
+                                        Text(" ")
+                                            
+                                       
+                                    }
                                     
                                     Button(action: {
                                         
