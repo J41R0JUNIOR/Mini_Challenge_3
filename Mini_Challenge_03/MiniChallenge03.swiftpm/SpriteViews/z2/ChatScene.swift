@@ -145,7 +145,7 @@ struct ChatSceneView: UIViewRepresentable {
         return Coordinator()
     }
 
-    func updateUIView(_ uiView: MainScene, context: Context) {
+    func updateUIView(_ uiView: ShipScene, context: Context) {
     
     }
     
