@@ -185,10 +185,7 @@ class ShipScene: SKScene {
 //                    fireNode.removeFromParent()
 //                }
         }
-        
     }
-    
-    
 }
 
 

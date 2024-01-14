@@ -62,7 +62,7 @@ class ChatScene: SKScene {
     
    
     func addChat(text: String) {
-        print(text)
+//        print(text)
         chat.text = text
 //        chat.fontName = "Helvetica-Bold"
         chat.fontName = Texts.fontScene.rawValue

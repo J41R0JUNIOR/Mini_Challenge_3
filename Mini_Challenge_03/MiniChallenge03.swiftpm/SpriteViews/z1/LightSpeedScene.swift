@@ -9,26 +9,32 @@ import Foundation
 import SpriteKit
 import SwiftUI
 
-class LightsSpeedChatScene: SKScene {
+class LightSpeedScene: SKScene {
     let cameraNode = SKCameraNode()
   
-    var eistein: SKSpriteNode = {
+    var einstein: SKSpriteNode = {
         let object = SKSpriteNode(imageNamed: "einstein")
-        object.size = CGSize(width: 100, height: 100)
+//        object.size = CGSize(width: 100, height: 100)
         return object
     }()
     
-   
-
     override func didMove(to view: SKView) {
-        backgroundColor = .clear
-//        eistein.position = CGPoint(x: 0, y: 0)
-        addChild(eistein)
+        self.backgroundColor = .clear
         self.addChild(cameraNode)
-        cameraNode.position.x = eistein.position.x
-        cameraNode.position.y = eistein.position.y
+        cameraNode.position = CGPoint(x: 0, y: 0)
         cameraNode.setScale(1.0)
         self.camera = cameraNode
+        self.addChild(einstein)
+        add()
+    }
+    
+    func add(){
+        
+        let x = (CGFloat(self.view?.bounds.size.width ?? 700)/2)
+
+        print(x)
+        einstein.size = CGSize(width: 100 + x, height: 100 + x)
+        
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -44,14 +50,14 @@ class LightsSpeedChatScene: SKScene {
 
 
 
-struct LightsSpeedChatSceneView: UIViewRepresentable {
+struct LightsSpeedSceneView: UIViewRepresentable {
    
     func makeUIView(context: Context) -> SKView {
         let skView = SKView()
         skView.isMultipleTouchEnabled = true
         skView.backgroundColor = .clear
         let sceneSize = CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-        let gameScene = LightsSpeedChatScene()
+        let gameScene = LightSpeedScene()
         gameScene.size = sceneSize
         skView.presentScene(gameScene)
 
@@ -76,7 +82,7 @@ struct LightsSpeedChatSceneView: UIViewRepresentable {
         return Coordinator()
     }
 
-    func updateUIView(_ uiView: LightsSpeedChatSceneView, context: Context) {
+    func updateUIView(_ uiView: LightsSpeedSceneView, context: Context) {
     
     }
 }

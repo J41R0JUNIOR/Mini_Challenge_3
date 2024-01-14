@@ -36,8 +36,6 @@ class ObjectsScene: SKScene {
         cameraNode.position = CGPoint(x: 0, y: 0)
         cameraNode.setScale(1.0)
         self.camera = cameraNode
-        
-      
     }
 
     func scheduleObjectCreation() {
@@ -128,7 +126,7 @@ class ObjectsScene: SKScene {
     }
     
     func changeColorsOfObjects(){
-        let screenWidth = CGFloat(self.view?.bounds.width ?? 1.0) - 550
+        let screenWidth = CGFloat(self.view?.bounds.width ?? 700) - 550
 
         let x = objects.first?.position.x ?? CGFloat()
         let normalizedX = x / (screenWidth / 2) * sceneSpeed - (x > 0 ? 2 : -2)
@@ -141,49 +139,20 @@ class ObjectsScene: SKScene {
         
         objects.first?.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
         
-//        if sceneSpeed > 40{
-            
-            //tem que multiplicar pelo módulo de X
-            
-            
             if let po = objects.first?.position.x{
                 //porcentagem da tela de acordo com o objeto na tela
                 let percentT = abs((po * 100) / (viewW/2) / 100)
-//                print(percentT)
                 let percentV = abs(((sceneSpeed * 100) / 50) / 100)
                 
                 let value =  ((percentT + percentV) / 2)
-                
-//                print(value)
-                
+            
                 objects.first?.colorBlendFactor = /* (0.5 * sceneSpeed) * abs(x / 100)*/ value
-
-                
             }
-            
-            
-            //              width/2
-            //         -tam |--- 0 ---| +tam
-            
-            
-            
-            //          tamTela = 100%
-            //          posicaoXObj = x%
-            
-            
-//        }else{
-//            objects.first?.colorBlendFactor =  (0.5 * sceneSpeed) * 1 / 100
-//        }
         
         let mult = 0.1
         
         if objects.first?.position.x ?? CGFloat() < viewW * mult && objects.first?.position.x ?? CGFloat() > -viewW * mult{
-//            print("é dentro")
             objects.first?.colorBlendFactor = 0
-//            print("positionX",objects.first?.position.x)
-//            print("view",viewW)
-//            print("-view",-viewW)
-            
         }
     }
 }

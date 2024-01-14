@@ -6,15 +6,24 @@ struct MainView: View {
    
     var body: some View {
         ZStack {
-            if mainView.shipState != "Outside"{
+            //descomenta isso, só comentei pra fazer a lightSpeedScene mais rápido, sem ter que ir até a velocidade máxima pra mudar de cena
+            
+           /* if mainView.shipState != "Outside"{
                 MainSceneBuilder
                     .font(mainView.customFont.getFont(size: mainView.NormalFontSize))
                        
-            }else if mainView.shipState == "Outside"{
-                LightsSpeedChatSceneView()
+            }
+            else */if mainView.shipState == "Outside"{
+                withAnimation {
+                    LightsSpeedSceneView()
+                }
                 
             }
         }.background(.black)
+        //tem que tirar esse onAppear tbm heh
+            .onAppear {
+                mainView.shipState = "Outside"
+            }
          
             
     }

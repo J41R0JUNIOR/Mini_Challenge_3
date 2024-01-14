@@ -20,6 +20,7 @@ extension MainView{
                 .ignoresSafeArea()
                 .navigationBarBackButtonHidden()
             
+           
             if !mainView.shipAppear{
                 VStack{
                     Spacer()
@@ -54,7 +55,7 @@ extension MainView{
                 
                 ChatSceneView(sceneSpeed: $mainView.shipSpeed, witchObject: $mainView.witchObject, canClearChat: $mainView.canClearChat)
                 
-                ShipSceneView(sceneSpeed: $mainView.shipSpeed, shipAppear: $mainView.shipAppear, witchObject: $mainView.witchObject, shipState: $mainView.shipState, canClearChat: $mainView.canClearChat, isLightSpeed: $mainView.isLightSpeed)
+                ShipSceneView(sceneSpeed: $mainView.shipSpeed, shipAppear: $mainView.shipAppear, shipState: $mainView.shipState, isLightSpeed: $mainView.isLightSpeed)
                 
                 if mainView.shipState == "Middle"{
                     

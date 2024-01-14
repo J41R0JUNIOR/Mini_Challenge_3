@@ -57,16 +57,17 @@ class BackGroundScene: SKScene {
                 updateStarWidth(estrelaNode: estrelaNode)
                 let x = estrelaNode.position.x
                 
-                //
-                let screenWidth = CGFloat(self.view?.bounds.width ?? 1.0) - 550
-
-                let normalizedX = x / (screenWidth / 2) * sceneSpeed
-
-                let redColor = max(0.0, 1.0 - normalizedX)
-                let blueColor = max(0.0, 1.0 + normalizedX)
-
-                estrelaNode.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
-                estrelaNode.colorBlendFactor = 1 * sceneSpeed / 100
+//                //
+//                let screenWidth = CGFloat(self.view?.bounds.width ?? 1.0) - 550
+//
+//                let normalizedX = x / (screenWidth / 2) * sceneSpeed
+//
+//                let redColor = max(0.0, 1.0 - normalizedX)
+//                let blueColor = max(0.0, 1.0 + normalizedX)
+//
+//                estrelaNode.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
+//                estrelaNode.colorBlendFactor = 1 * sceneSpeed / 100
+//                //
 
                 if x < -(view?.frame.midX ?? -700) || x > (view?.frame.midX ?? -700){
                     estrelaNode.removeFromParent()
