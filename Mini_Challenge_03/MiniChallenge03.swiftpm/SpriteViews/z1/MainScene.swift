@@ -6,15 +6,15 @@ class MainScene: SKScene {
     //variables to control the entire enviroment
     @Binding var sceneSpeed: Double
     @Binding var shipAppear: Bool
-    @Binding var witchObject: String
+//    @Binding var witchObject: String
     @Binding var shipState: String
-    @Binding var canClearChat: Bool
+//    @Binding var canClearChat: Bool
     @Binding var isLightSpeed: Bool
     
     //variables to the chats cumming from the planets and objects
-    var chat: SKLabelNode = SKLabelNode()
-    let chatLabel = SKNode()
-    var square = SKShapeNode()
+//    var chat: SKLabelNode = SKLabelNode()
+//    let chatLabel = SKNode()
+//    var square = SKShapeNode()
     
     let cameraNode = SKCameraNode()
     var characterNode: SKSpriteNode?
@@ -69,8 +69,8 @@ class MainScene: SKScene {
     init(sceneSpeed: Binding<Double>, shipAppear: Binding<Bool>, witchObject: Binding<String>, isShipInView: Binding<String>, canClearChat: Binding<Bool>, isLightSpeed: Binding<Bool>) {
         self._sceneSpeed = sceneSpeed
         self._shipAppear = shipAppear
-        self._witchObject = witchObject
-        self._canClearChat = canClearChat
+//        self._witchObject = witchObject
+//        self._canClearChat = canClearChat
         self._isLightSpeed = isLightSpeed
         self._shipState = isShipInView
         
@@ -98,7 +98,7 @@ class MainScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        callChat()
+//        callChat()
         
         if shipAppear == true{
             moveShip(withSpeed: sceneSpeed)
@@ -158,56 +158,56 @@ class MainScene: SKScene {
         fireNode.run(moveFire, withKey: "moveF")
     }
     
-    func addChat(text: String) {
-        print(text)
-        chat.text = text
-//        chat.fontName = "Helvetica-Bold"
-        chat.fontName = Chats.fontScene.rawValue
-        chat.fontSize = 30
-        chat.fontColor = UIColor(resource: .texts)
-        chat.horizontalAlignmentMode = .center
-        chat.verticalAlignmentMode = .center
-        chat.numberOfLines = 0
-        chat.preferredMaxLayoutWidth = size.width * 0.60
-      
-        square = SKShapeNode(rectOf: CGSize(width: chat.frame.width + 50, height: chat.frame.height + 50), cornerRadius: 1)
-        square.strokeColor = SKColor.white
-        square.lineWidth = 2.0
-        square.fillColor = .black
-        square.zPosition = -1
-        
-        chatLabel.position.x = cameraNode.position.x
-        chatLabel.position.y = -(CGFloat(self.view?.bounds.size.height ?? 700) / 2) + ((chat.frame.height * 1.2) / 2)
+//    func addChat(text: String) {
+//        print(text)
+//        chat.text = text
+////        chat.fontName = "Helvetica-Bold"
+//        chat.fontName = Texts.fontScene.rawValue
+//        chat.fontSize = 30
+//        chat.fontColor = UIColor(resource: .texts)
+//        chat.horizontalAlignmentMode = .center
+//        chat.verticalAlignmentMode = .center
+//        chat.numberOfLines = 0
+//        chat.preferredMaxLayoutWidth = size.width * 0.60
+//      
+//        square = SKShapeNode(rectOf: CGSize(width: chat.frame.width + 50, height: chat.frame.height + 50), cornerRadius: 1)
+//        square.strokeColor = SKColor.white
+//        square.lineWidth = 2.0
+//        square.fillColor = .black
+//        square.zPosition = -1
+//        
+//        chatLabel.position.x = cameraNode.position.x
+//        chatLabel.position.y = -(CGFloat(self.view?.bounds.size.height ?? 700) / 2) + ((chat.frame.height * 1.2) / 2)
+//
+//        if chatLabel.parent == nil && chat.parent == nil && square.parent == nil{
+//            chatLabel.addChild(chat)
+//            chatLabel.addChild(square)
+//            addChild(chatLabel)
+//        }
+//    }
 
-        if chatLabel.parent == nil && chat.parent == nil && square.parent == nil{
-            chatLabel.addChild(chat)
-            chatLabel.addChild(square)
-            addChild(chatLabel)
-        }
-    }
-
-    func callChat(){
-        if witchObject == "jupiter"{
-            witchObject = "obj in scene"
-            addChat(text: Chats.jupiter.rawValue)
-            
-        }
-        else if witchObject == "earth"{
-            witchObject = "obj in scene"
-            addChat(text: Chats.earth.rawValue)
-            
-        }
-        else if witchObject == "Anything"{
-            chat.removeFromParent()
-            square.removeFromParent()
-            chatLabel.removeFromParent()
-        }
-        else if canClearChat == true{
-            chat.removeFromParent()
-            square.removeFromParent()
-            chatLabel.removeFromParent()
-        }
-    }
+//    func callChat(){
+//        if witchObject == "jupiter"{
+//            witchObject = "obj in scene"
+//            addChat(text: Texts.jupiter.rawValue)
+//            
+//        }
+//        else if witchObject == "earth"{
+//            witchObject = "obj in scene"
+//            addChat(text: Texts.earth.rawValue)
+//            
+//        }
+//        else if witchObject == "Anything"{
+//            chat.removeFromParent()
+//            square.removeFromParent()
+//            chatLabel.removeFromParent()
+//        }
+//        else if canClearChat == true{
+//            chat.removeFromParent()
+//            square.removeFromParent()
+//            chatLabel.removeFromParent()
+//        }
+//    }
     
     func moveShip(withSpeed speed: CGFloat) {
         

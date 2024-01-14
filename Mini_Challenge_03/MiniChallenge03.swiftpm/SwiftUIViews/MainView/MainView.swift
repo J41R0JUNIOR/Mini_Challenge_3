@@ -7,11 +7,11 @@ struct MainView: View {
     var body: some View {
         ZStack {
             if mainView.shipState != "Outside"{
-                shipView
+                MainSceneBuilder
                     .font(mainView.customFont.getFont(size: mainView.NormalFontSize))
                        
             }else if mainView.shipState == "Outside"{
-                CharacterView1()
+                LightsSpeedChatSceneView()
                 
             }
         }.background(.black)

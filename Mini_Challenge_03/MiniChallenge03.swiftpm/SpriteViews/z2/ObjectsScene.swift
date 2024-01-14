@@ -1,7 +1,7 @@
 import SpriteKit
 import SwiftUI
 
-class ObjectsView: SKScene {
+class ObjectsScene: SKScene {
     var objects: [SKSpriteNode] = []
     @Binding var sceneSpeed: Double
     @Binding var witchObject: String
@@ -131,8 +131,7 @@ class ObjectsView: SKScene {
         let screenWidth = CGFloat(self.view?.bounds.width ?? 1.0) - 550
 
         let x = objects.first?.position.x ?? CGFloat()
-        let normalizedX = x / (screenWidth / 2) * sceneSpeed - 2
-
+        let normalizedX = x / (screenWidth / 2) * sceneSpeed - (x > 0 ? 2 : -2)
         
         
         let redColor = max(0.0, 1.0 - normalizedX)
@@ -201,7 +200,7 @@ struct ObjectsSceneView: UIViewRepresentable {
         skView.isMultipleTouchEnabled = true
         skView.backgroundColor = .clear
         let sceneSize = CGSize(width: 700, height: 500)
-        let gameScene = ObjectsView(sceneSpeed: $sceneSpeed, witchObject: $witchObject, canClearChat: $canClearChat)
+        let gameScene = ObjectsScene(sceneSpeed: $sceneSpeed, witchObject: $witchObject, canClearChat: $canClearChat)
         gameScene.size = sceneSize
         skView.presentScene(gameScene)
 
@@ -215,6 +214,6 @@ struct ObjectsSceneView: UIViewRepresentable {
         return Coordinator()
     }
 
-    func updateUIView(_ uiView: ObjectsView, context: Context) {
+    func updateUIView(_ uiView: ObjectsScene, context: Context) {
     }
 }

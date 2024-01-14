@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 import SwiftUI
 
-class ChatScene: SKScene {
+class LightsSpeedChatScene: SKScene {
     let cameraNode = SKCameraNode()
   
     var eistein: SKSpriteNode = {
@@ -44,14 +44,14 @@ class ChatScene: SKScene {
 
 
 
-struct CharacterView1: UIViewRepresentable {
+struct LightsSpeedChatSceneView: UIViewRepresentable {
    
     func makeUIView(context: Context) -> SKView {
         let skView = SKView()
         skView.isMultipleTouchEnabled = true
         skView.backgroundColor = .clear
         let sceneSize = CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-        let gameScene = ChatScene()
+        let gameScene = LightsSpeedChatScene()
         gameScene.size = sceneSize
         skView.presentScene(gameScene)
 
@@ -76,7 +76,7 @@ struct CharacterView1: UIViewRepresentable {
         return Coordinator()
     }
 
-    func updateUIView(_ uiView: CharacterView1, context: Context) {
+    func updateUIView(_ uiView: LightsSpeedChatSceneView, context: Context) {
     
     }
 }

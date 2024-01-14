@@ -2,12 +2,12 @@
 //  File.swift
 //  
 //
-//  Created by Jairo Júnior on 06/01/24.
+//  Created by Jairo Júnior on 14/01/24.
 //
 
 import Foundation
 
-enum Chats: String{
+public enum Texts: String{
     //custom font
     case fontScene = "NFPixels-Regular"
     
@@ -22,5 +22,3 @@ enum Chats: String{
     case jupiter = "A luz demora em média 0,4s para dar a volta completa em Júpiter, isso significa que em um segundo ela dá duas voltas em torno do planeta."
     case earth = "A luz demora em média 0,04s para dar a volta completa na Terra, isso significa que em um segundo ela dá 23 voltas em torno do planeta."
 }
-
-
