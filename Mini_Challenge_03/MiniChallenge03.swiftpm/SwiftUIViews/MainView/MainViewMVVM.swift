@@ -142,18 +142,16 @@ class MainViewMVVM: ObservableObject{
         return Int(x)
     }
     
-    var date: Date =  Date()
-    
-    func calculateTimeDifference(speed: Double, currentTime: Date) -> Date {
-        let relativisticFactor = 1 / sqrt(1 - (pow(speed, 2) / pow(maxSpeedInScene, 2)))
-        let dilatedTimeInterval = currentTime.timeIntervalSinceReferenceDate * relativisticFactor
-        
-        let dilatedDate = Date(timeIntervalSinceReferenceDate: dilatedTimeInterval)
-
-        return dilatedDate
-    }
-
-    
+//    var date: Date =  Date()
+//    
+//    func calculateTimeDifference(speed: Double, currentTime: Date) -> Date {
+//        let relativisticFactor = 1 / sqrt(1 - (pow(speed, 2) / pow(maxSpeedInScene, 2)))
+//        let dilatedTimeInterval = currentTime.timeIntervalSinceReferenceDate * relativisticFactor
+//        
+//        let dilatedDate = Date(timeIntervalSinceReferenceDate: dilatedTimeInterval)
+//
+//        return dilatedDate
+//    }
 }
 
 #Preview(body: {

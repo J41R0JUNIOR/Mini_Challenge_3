@@ -60,6 +60,8 @@ class ObjectsScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
+//        print(self.view?.scene?.children.count)
+        
         moveObjects(withSpeed: CGFloat(sceneSpeed))
         removeObjectsOutOfBounds()
         changeColorsOfObjects()
@@ -136,6 +138,7 @@ class ObjectsScene: SKScene {
         let blueColor = max(0.0, 1.0 + normalizedX)
 
         let viewW = (view?.bounds.size.width ?? CGFloat(200))
+        
         
         objects.first?.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
         

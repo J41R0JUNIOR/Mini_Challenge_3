@@ -19,22 +19,25 @@ class LightSpeedScene: SKScene {
     }()
     
     override func didMove(to view: SKView) {
+        add()
+    }
+    
+    func add(){
+        //add and setting camera to the scene
         self.backgroundColor = .clear
         self.addChild(cameraNode)
         cameraNode.position = CGPoint(x: 0, y: 0)
         cameraNode.setScale(1.0)
         self.camera = cameraNode
+        
+        //add Einstein to the scene
         self.addChild(einstein)
-        add()
     }
     
-    func add(){
-        
-        let x = (CGFloat(self.view?.bounds.size.width ?? 700)/2)
+    func characterSetting(){
+        let x = (CGFloat(self.view?.bounds.size.width ?? 700)/2) * 0.5
 
-        print(x)
-        einstein.size = CGSize(width: 100 + x, height: 100 + x)
-        
+        einstein.size = CGSize(width: x, height: x)
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -44,7 +47,7 @@ class LightSpeedScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
-        
+       characterSetting()
     }
 }
 

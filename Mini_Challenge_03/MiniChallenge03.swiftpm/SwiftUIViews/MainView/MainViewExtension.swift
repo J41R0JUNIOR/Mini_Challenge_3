@@ -105,14 +105,14 @@ extension MainView{
                             
                             Spacer()
                             
-                            VStack{
-                                Text("Hora atual: \(Date().formatted(date: .omitted, time: .complete))").colorInvert()
-                                Text("Hora da nave: ").colorInvert()
-                                Text("Diferenca: \(mainView.date.formatted(date: .omitted, time: .complete))").colorInvert()
-                                Spacer()
-                            }
-                            
-                            Spacer()
+//                            VStack{
+//                                Text("Hora atual: \(Date().formatted(date: .omitted, time: .complete))").colorInvert()
+//                                Text("Hora da nave: ").colorInvert()
+//                                Text("Diferenca: \(mainView.date.formatted(date: .omitted, time: .complete))").colorInvert()
+//                                Spacer()
+//                            }
+//                            
+//                            Spacer()
                             
                             VStack{
                                 ZStack{
@@ -212,12 +212,12 @@ extension MainView{
             
             
             
-        }.onAppear {
+        }/*.onAppear {
             Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                 let timeDifference = mainView.calculateTimeDifference(speed: Double(mainView.calculateRealSpeed(mainView.shipSpeed)), currentTime: Date())
                 mainView.date = timeDifference
             }
-        }
+        }*/
         
     }
 }

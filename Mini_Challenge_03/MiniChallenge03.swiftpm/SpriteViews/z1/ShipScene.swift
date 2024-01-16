@@ -131,6 +131,8 @@ class ShipScene: SKScene {
     func addLabels(){
         ship.zPosition = 1
         addChild(ship)
+        
+//        ship.position = CGPoint(x: -750 , y: 0)
         ship.position = CGPoint(x: -750 , y: 0)
                 
         let moveAction = SKAction.repeatForever(.animate(with: shipTextures, timePerFrame: 0.2))
