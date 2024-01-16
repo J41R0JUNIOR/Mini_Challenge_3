@@ -86,14 +86,15 @@ extension MainView{
                                     let x = ((200 * mainView.shipSpeed) / 50) - 4
                                     
                                     
-                                    Rec(y: 0)
-                                        .frame(width: w, height: h)
-                                        .foregroundColor(.clear)
-                                        .border(.white, width: 3)
+//                                    Rec(y: 0)
+//                                        .frame(width: w, height: h)
+//                                        .foregroundColor(.clear)
+//                                        .border(.white, width: 3)
                                     
                                     Rec(y: x)
                                         .frame(width: w * 0.87 , height: h * 0.98)
                                         .foregroundColor(.red)
+                                        .border(.white, width: 3)
                                 }
                                 Text("∞")
                                     .font(.system(size: 30))

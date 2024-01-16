@@ -11,6 +11,9 @@ import SwiftUI
 
 class LightSpeedScene: SKScene {
     let cameraNode = SKCameraNode()
+    var show2 : Bool = false
+    var i: Int = 0
+    
   
     var einstein: SKSpriteNode = {
         let object = SKSpriteNode(imageNamed: "einstein")
@@ -35,15 +38,22 @@ class LightSpeedScene: SKScene {
     }
     
     func characterSetting(){
-        let x = (CGFloat(self.view?.bounds.size.width ?? 700)/2) * 0.5
+        if show2{
+            let frame = (CGFloat(self.view?.bounds.size.width ?? 700)/2) * 0.5
+            einstein.size = CGSize(width: frame, height: frame)
+            
+            if let view = self.view{
+                einstein.position = CGPoint(x: (view.frame.width / 2) * 0.5 , y: 0)
+            }
+            einstein.isHidden = false
 
-        einstein.size = CGSize(width: x, height: x)
+        }else{
+            einstein.isHidden = true
+        }
     }
 
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        _ = touch.location(in: self)
-        _ = touch.previousLocation(in: self)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        show2.toggle()
     }
 
     override func update(_ currentTime: TimeInterval) {
