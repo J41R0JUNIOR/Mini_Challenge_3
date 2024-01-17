@@ -25,8 +25,7 @@ class LightSpeedSceneScene: SKScene {
     }
 
     override func didMove(to view: SKView) {
-            view.showsFPS = true
-            view.showsNodeCount = true
+       
             backgroundColor = UIColor(resource: .sky)
             
             eistein.position = CGPoint(x: 500, y: 0)

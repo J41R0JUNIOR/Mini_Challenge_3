@@ -29,8 +29,7 @@ class ObjectsScene: SKScene {
     }
 
     override func didMove(to view: SKView) {
-        view.showsFPS = true
-        view.showsNodeCount = true
+  
         self.backgroundColor = .clear
         self.addChild(cameraNode)
         cameraNode.position = CGPoint(x: 0, y: 0)
@@ -87,8 +86,6 @@ class ObjectsScene: SKScene {
                 node.size = CGSize(width: 650, height: 650)
             } else if nameOfObject == "earth" {
                 node.size = CGSize(width: 200, height: 200)
-            } else {
-                node.size = CGSize(width: 600, height: 600)
             }
             
             let x = /*size.width*/ (CGFloat(self.view?.bounds.size.width ?? 700)/2) + (CGFloat(node.size.width )/2)
@@ -142,9 +139,9 @@ class ObjectsScene: SKScene {
         
         objects.first?.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
         
-            if let po = objects.first?.position.x{
+            if let position = objects.first?.position.x{
                 //porcentagem da tela de acordo com o objeto na tela
-                let percentT = abs((po * 100) / (viewW/2) / 100)
+                let percentT = abs((position * 100) / (viewW / 2) / 100)
                 let percentV = abs(((sceneSpeed * 100) / 50) / 100)
                 
                 let value =  ((percentT + percentV) / 2)

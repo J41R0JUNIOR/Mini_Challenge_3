@@ -22,8 +22,7 @@ class ReverseBackGroundScene: SKScene {
     }
 
     override func didMove(to view: SKView) {
-        view.showsFPS = true
-        view.showsNodeCount = true
+
         backgroundColor = UIColor(resource: .sky)
         cameraNode.setScale(1.0)
         self.camera = cameraNode

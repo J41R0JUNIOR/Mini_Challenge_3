@@ -199,20 +199,17 @@ extension MainView{
                     VStack{
                         Spacer()
                         HStack{
-                            if mainView.witchObject != "obj in scene"{
-                                
-                            
+                            if mainView.witchObject != "Anything"{
 //                                var text = Texts(rawValue: Texts.RawValue("earth")) ?? Texts.earth
 //                                
                                 
                                 let text: [String: Texts] = ["earth": .earth, "jupiter": .jupiter]
                                 
                                 if let selectedText = text[mainView.witchObject]{
-                                    TextComponent(fontSize: mainView.NormalFontSize, text: selectedText.rawValue, font: Texts.fontScene.rawValue).border(.white)
-
+                                    withAnimation {
+                                        TextComponent(fontSize: mainView.NormalFontSize, text: selectedText.rawValue, font: Texts.fontScene.rawValue).border(.white)
+                                    }
                                 }
-                                
- 
                                 
 //                                TextComponent(fontSize: mainView.NormalFontSize, text: "", font: Texts.fontScene.rawValue).border(.white)
                                     
