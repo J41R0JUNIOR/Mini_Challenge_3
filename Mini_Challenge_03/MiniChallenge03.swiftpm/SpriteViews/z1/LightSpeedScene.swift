@@ -46,11 +46,21 @@ class LightSpeedScene: SKScene {
                 einstein.position = CGPoint(x: (view.frame.width / 2) * 0.5 , y: 0)
             }
             einstein.isHidden = false
+            addSecondScene()
 
         }else{
             einstein.isHidden = true
         }
     }
+    
+    func addSecondScene() {
+           // Create a new scene (you can replace this with your own scene class)
+//        let secondScene = ChatScene(witchObject: <#T##Binding<String>#>, canClearChat: <#T##Binding<Bool>#>)
+           
+
+           // Add the second scene as a child of the main scene
+//           self.addChild(secondScene)
+       }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         show2.toggle()
@@ -58,6 +68,7 @@ class LightSpeedScene: SKScene {
 
     override func update(_ currentTime: TimeInterval) {
        characterSetting()
+    
     }
 }
 

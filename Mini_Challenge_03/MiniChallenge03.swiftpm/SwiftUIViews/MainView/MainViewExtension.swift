@@ -25,21 +25,8 @@ extension MainView{
                 VStack{
                     Spacer()
                     
-                    ZStack{
-                        
-                        Rectangle()
-                            .foregroundStyle(.black)
-                            .border(.white)
-                            .frame(maxWidth: 750, maxHeight: 350)
-                        
-                        Text(Texts.inicialLabel.rawValue)
-                            .font(Font.custom(Texts.fontScene.rawValue, size: mainView.BigFontSize))
-                        //                            .font(.system(size: 40))
-                        //                            .font(mainView.customFont.getFont(size: 40))
-                            .multilineTextAlignment(.center)
-                            .foregroundStyle(Color(.texts))
-                            .frame(maxWidth: 700, maxHeight: 300)
-                    }
+                    TextComponent(fontSize: mainView.BigFontSize, text: Texts.inicialLabel.rawValue, font: Texts.fontScene.rawValue).border(.white)
+                    
                     Spacer()
                     
                     Button {
@@ -53,7 +40,7 @@ extension MainView{
             } else {
                 ObjectsSceneView(sceneSpeed: $mainView.shipSpeed, witchObject: $mainView.witchObject, canClearChat: $mainView.canClearChat)
                 
-                ChatSceneView(sceneSpeed: $mainView.shipSpeed, witchObject: $mainView.witchObject, canClearChat: $mainView.canClearChat)
+//                ChatSceneView(witchObject: $mainView.witchObject, canClearChat: $mainView.canClearChat)
                 
                 ShipSceneView(sceneSpeed: $mainView.shipSpeed, shipAppear: $mainView.shipAppear, shipState: $mainView.shipState, isLightSpeed: $mainView.isLightSpeed)
                 
@@ -181,6 +168,7 @@ extension MainView{
                                         mainView.breakShip(canBreak: false)
                                     }
                                 }.padding()
+                            
                             Spacer()
                             
                             
@@ -207,8 +195,33 @@ extension MainView{
                             
                         }
                     }
+                    
+                    VStack{
+                        Spacer()
+                        HStack{
+                            if mainView.witchObject != "obj in scene"{
+                                
+                            
+//                                var text = Texts(rawValue: Texts.RawValue("earth")) ?? Texts.earth
+//                                
+                                
+                                let text: [String: Texts] = ["earth": .earth, "jupiter": .jupiter]
+                                
+                                if let selectedText = text[mainView.witchObject]{
+                                    TextComponent(fontSize: mainView.NormalFontSize, text: selectedText.rawValue, font: Texts.fontScene.rawValue).border(.white)
+
+                                }
+                                
+ 
+                                
+//                                TextComponent(fontSize: mainView.NormalFontSize, text: "", font: Texts.fontScene.rawValue).border(.white)
+                                    
+                                    Text(mainView.witchObject)
+                            }
+//                            ChatSceneView(witchObject: $mainView.witchObject, canClearChat: $mainView.canClearChat)
+                        }
+                    }
                 }
-                
             }
             
             

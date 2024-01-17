@@ -11,7 +11,7 @@ import SwiftUI
 class ChatScene: SKScene {
     
     //variables to control the entire enviroment
-    @Binding var sceneSpeed: Double
+   
     @Binding var witchObject: String
     @Binding var canClearChat: Bool
     
@@ -23,8 +23,7 @@ class ChatScene: SKScene {
     let cameraNode = SKCameraNode()
     var characterNode: SKSpriteNode?
     
-    init(sceneSpeed: Binding<Double>, witchObject: Binding<String>, canClearChat: Binding<Bool>) {
-        self._sceneSpeed = sceneSpeed
+    init(witchObject: Binding<String>, canClearChat: Binding<Bool>) {
         self._witchObject = witchObject
         self._canClearChat = canClearChat
         
@@ -79,8 +78,8 @@ class ChatScene: SKScene {
         square.fillColor = .black
         square.zPosition = -1
         
-        chatLabel.position.x = cameraNode.position.x
-        chatLabel.position.y = -(CGFloat(self.view?.bounds.size.height ?? 700) / 2) + ((chat.frame.height * 1.2) / 2)
+//        chatLabel.position.x = cameraNode.position.x
+//        chatLabel.position.y = -(CGFloat(self.view?.bounds.size.height ?? 700) / 2) + ((chat.frame.height * 1.2) / 2)
 
         if chatLabel.parent == nil && chat.parent == nil && square.parent == nil{
             chatLabel.addChild(chat)
@@ -118,7 +117,7 @@ class ChatScene: SKScene {
 
 
 struct ChatSceneView: UIViewRepresentable {
-    @Binding var sceneSpeed: Double
+  
     @Binding var witchObject: String
     @Binding var canClearChat: Bool
 
@@ -128,7 +127,7 @@ struct ChatSceneView: UIViewRepresentable {
         skView.isMultipleTouchEnabled = true
         skView.backgroundColor = .clear
         let sceneSize = CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-        let gameScene = ChatScene(sceneSpeed: $sceneSpeed, witchObject: $witchObject, canClearChat: $canClearChat)
+        let gameScene = ChatScene(witchObject: $witchObject, canClearChat: $canClearChat)
         gameScene.size = sceneSize
         skView.presentScene(gameScene)
 
