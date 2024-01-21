@@ -47,7 +47,6 @@ class LightSpeedScene: SKScene {
             }
             einstein.isHidden = false
             addSecondScene()
-
         }else{
             einstein.isHidden = true
         }

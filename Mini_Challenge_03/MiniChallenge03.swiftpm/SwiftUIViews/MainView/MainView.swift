@@ -6,18 +6,19 @@ struct MainView: View {
    
     var body: some View {
         ZStack {
-
-            /*if mainView.shipState != "Outside"{
+            Rectangle().foregroundStyle(.black)
+           /* if mainView.shipState != "Outside"{
                 VStack{
                     Spacer()
                     MainSceneBuilder
-                        .font(mainView.customFont.getFont(size: mainView.NormalFontSize))
+                        .font(mainView.customFont.getFont(size: Sizes.normal.rawValue))
                 }
             }
             else*/ if mainView.shipState == "Outside"{
-                withAnimation {
-                    LightsSpeedSceneView()
-                }
+//                withAnimation {
+//                    LightsSpeedSceneView()
+//                }
+                LightSpeedView(mainView: mainView)
             }
         }.background(.black)
         .onAppear {

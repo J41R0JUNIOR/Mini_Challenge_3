@@ -57,52 +57,6 @@ class ShipScene: SKScene {
         return fire
     }()
     
-    
-    
-    init(sceneSpeed: Binding<Double>, shipAppear: Binding<Bool>, isShipInView: Binding<String>, isLightSpeed: Binding<Bool>) {
-        self._sceneSpeed = sceneSpeed
-        self._shipAppear = shipAppear
-        self._isLightSpeed = isLightSpeed
-        self._shipState = isShipInView
-        
-        super.init(size: .init(width: 1, height: 1))
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func sceneDidLoad() {
-        self.scaleMode = .fill
-        self.backgroundColor = .clear
-    }
-
-    override func didMove(to view: SKView) {
-        self.backgroundColor = .clear
-        self.addChild(cameraNode)
-        cameraNode.position = CGPoint(x: 0, y: 0)
-        cameraNode.setScale(1.0)
-        self.camera = cameraNode
-    
-      
-        addLabels()
-    }
-    
-    override func update(_ currentTime: TimeInterval) {
-        if shipAppear == true{
-            moveShip(withSpeed: sceneSpeed)
-        }
-        
-        changeFire()
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        _ = touch.location(in: self)
-        _ = touch.previousLocation(in: self)
-
-    }
-    
     func changeFire(){
         if sceneSpeed >= 50{
             if fireNode.action(forKey: "moveFireGG") == nil {
@@ -149,48 +103,117 @@ class ShipScene: SKScene {
         fireNode.run(moveFire, withKey: "moveF")
     }
     
-    func moveShip(withSpeed speed: CGFloat) {
-        
-        if !isLightSpeed{
-            if (ship.position.x < 0) {
-                if ship.action(forKey: "movingInside") == nil {
-//               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
-                    let speedFactor = 1
-                    let moveAction = SKAction.moveBy(x: 10 * speed * CGFloat(speedFactor), y: 0, duration: 0.1)
-                    ship.run(moveAction, withKey: "movingInside")
-                    fireNode.run(moveAction, withKey: "movingInside")
+    func moveShip() {
+        if shipAppear{
+            if !isLightSpeed{
+                if (ship.position.x < 0) {
+                    if ship.action(forKey: "movingInside") == nil {
+                        //               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
+                        let speedFactor = 1
+                        let moveAction = SKAction.moveBy(x: 10 * speed * CGFloat(speedFactor), y: 0, duration: 0.1)
+                        ship.run(moveAction, withKey: "movingInside")
+                        fireNode.run(moveAction, withKey: "movingInside")
+                    }
+                }else{
+                    ship.removeAction(forKey: "movingInside")
+                    fireNode.removeAction(forKey: "movingInside")
+                    shipState = "Middle"
                 }
-            }else{
-                ship.removeAction(forKey: "movingInside")
-                fireNode.removeAction(forKey: "movingInside")
-                shipState = "Middle"
-            }
-        }else if let widthLength = view?.bounds.width {
-            if ship.position.x < widthLength{
-                if ship.action(forKey: "movingOutside") == nil {
-                    //               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
-                    let speedFactor = 2
-                    let moveAction = SKAction.moveBy(x: 10 * CGFloat(speedFactor), y: 0, duration: 0.1)
-                    ship.run(moveAction, withKey: "movingOutside")
-                    fireNode.run(moveAction, withKey: "movingOutside")
-                    shipState = "movingOutside"
-                    sceneSpeed = 100
-                
+            }else if let widthLength = view?.bounds.width {
+                if ship.position.x < widthLength{
+                    if ship.action(forKey: "movingOutside") == nil {
+                        //               let speedFactor = sceneSpeed > speedToGoBack ? -1 : 1
+                        let speedFactor = 2
+                        let moveAction = SKAction.moveBy(x: 10 * CGFloat(speedFactor), y: 0, duration: 0.1)
+                        ship.run(moveAction, withKey: "movingOutside")
+                        fireNode.run(moveAction, withKey: "movingOutside")
+                        shipState = "movingOutside"
+                        sceneSpeed = 100
+                        
+                    }
                 }
+                else{
+                    //                    ship.action(forKey: "Outside")
+                    shipState = "Outside"
+                }
+                //                else{
+                //                    ship.removeFromParent()
+                //                    fireNode.removeFromParent()
+                //                }
             }
-            else{
-//                    ship.action(forKey: "Outside")
-                shipState = "Outside"
-            }
-//                else{
-//                    ship.removeFromParent()
-//                    fireNode.removeFromParent()
-//                }
         }
     }
+    
+    func shakeShip(){
+        if shipState == "Middle"{
+            if sceneSpeed > 20{
+                let velocidadeShake = Int((5 * (sceneSpeed - 20)) / 60)
+                
+                ///50  10        y = velocidade
+                ///y    x
+                ///
+                ///x = 10y / 50
+                ///
+                
+                
+                let x = Int.random(in: -velocidadeShake...velocidadeShake)
+                let y = Int.random(in: -velocidadeShake...velocidadeShake)
+                
+                ship.position = CGPoint(x: x, y: y)
+                fireNode.position = CGPoint(x: ship.position.x - ship.size.width /** 0.5*/, y: ship.position.y)
+            }else{
+                ship.position.x = 0
+                fireNode.position = CGPoint(x: ship.position.x - ship.size.width /** 0.5*/, y: ship.position.y)
+            }
+        }
+    }
+    
+    init(sceneSpeed: Binding<Double>, shipAppear: Binding<Bool>, isShipInView: Binding<String>, isLightSpeed: Binding<Bool>) {
+        self._sceneSpeed = sceneSpeed
+        self._shipAppear = shipAppear
+        self._isLightSpeed = isLightSpeed
+        self._shipState = isShipInView
+        
+        super.init(size: CGSize())
+        scaleMode = .resizeFill
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func sceneDidLoad() {
+        self.scaleMode = .fill
+        self.backgroundColor = .clear
+    }
+
+    override func didMove(to view: SKView) {
+        self.backgroundColor = .clear
+        self.addChild(cameraNode)
+        cameraNode.position = CGPoint(x: 0, y: 0)
+        cameraNode.setScale(1.0)
+        self.camera = cameraNode
+    
+        addLabels()
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        
+        moveShip()
+        
+        changeFire()
+        
+        shakeShip()
+
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        _ = touch.location(in: self)
+        _ = touch.previousLocation(in: self)
+
+    }
 }
-
-
 
 
 

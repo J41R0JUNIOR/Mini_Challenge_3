@@ -25,7 +25,7 @@ extension MainView{
                 VStack{
                     Spacer()
                     
-                    TextComponent(fontSize: mainView.BigFontSize, text: Texts.inicialLabel.rawValue, font: Texts.fontScene.rawValue).border(.white)
+                    TextComponent(fontSize: Sizes.great.rawValue, text: Texts.inicialLabel.rawValue, font: Texts.fontScene.rawValue).border(.white)
                     
                     Spacer()
                     
@@ -51,7 +51,7 @@ extension MainView{
                             VStack{
                                 //                                    Spacer()
                                 Text(Texts.upLeft.rawValue)
-                                    .font(Font.custom(Texts.fontScene.rawValue, size: mainView.NormalFontSize))
+                                    .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
                                     .colorInvert()
                                 
                                 
@@ -64,7 +64,7 @@ extension MainView{
                                 //                                        .tint(.clear)
                                 
                                 Text("\nNormal")
-                                    .font(Font.custom(Texts.fontScene.rawValue, size: mainView.NormalFontSize))
+                                    .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
                                     .foregroundStyle(.white)
                                 ZStack{
                                     let h: CGFloat = 200
@@ -78,7 +78,7 @@ extension MainView{
 //                                        .foregroundColor(.clear)
 //                                        .border(.white, width: 3)
                                     
-                                    Rec(y: x)
+                                    Rec(y: x - 4)
                                         .frame(width: w * 0.87 , height: h * 0.98)
                                         .foregroundColor(.red)
                                         .border(.white, width: 3)
@@ -108,13 +108,13 @@ extension MainView{
                                         .stroke(.gray, style: StrokeStyle(lineWidth: 10.5, lineCap: .round, lineJoin: .round))
                                         .frame(width: 100, height: 100)
                                     
-                                    SpeedCounter(startAngle: .degrees(0), endAngle: .degrees(Double(mainView.calculateShowSpeed(speed: mainView.shipSpeed))), clockWise: false)
+                                    SpeedCounter(startAngle: .degrees(0), endAngle: .degrees(Double(mainView.speedFormatted(speed: mainView.shipSpeed))), clockWise: false)
                                         .stroke(.linearGradient(colors: [/*Color(.color1), */Color(.color2), Color(.color3)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 10.5, lineCap: .round, lineJoin: .round))
                                         .frame(width: 100, height: 100)
                                     
                                     VStack{
                                         Text("\(mainView.calculateRealSpeed(mainView.shipSpeed))")
-                                            .font(Font.custom(Texts.fontScene.rawValue, size: mainView.NormalFontSize))
+                                            .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
                                             .colorInvert()
                                     }
                                 }
@@ -133,7 +133,7 @@ extension MainView{
                                         mainView.isLightSpeed.toggle()
                                     } label:{
                                         Text(Texts.lightSpeedButton.rawValue)
-                                            .font(Font.custom(Texts.fontScene.rawValue, size: mainView.NormalFontSize))
+                                            .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
                                     }
                                 }else{
                                     Text(" ")
@@ -153,7 +153,7 @@ extension MainView{
                                 
                             }, label: {
                                 Text("Frear")
-                                    .font(Font.custom(Texts.fontScene.rawValue, size: mainView.NormalFontSize))
+                                    .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
                                     .foregroundStyle(.white)
                             }).padding()
                                 .onLongPressGesture(minimumDuration: 1) {
@@ -176,7 +176,7 @@ extension MainView{
                                 
                             }, label: {
                                 Text("Acelerar")
-                                    .font(Font.custom(Texts.fontScene.rawValue, size: mainView.NormalFontSize))
+                                    .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
                                     .foregroundStyle(.white)
                             }).padding()
                                 .onLongPressGesture(minimumDuration: 1) {
@@ -207,7 +207,7 @@ extension MainView{
                                 
                                 if let selectedText = text[mainView.witchObject]{
                                     withAnimation {
-                                        TextComponent(fontSize: mainView.NormalFontSize, text: selectedText.rawValue, font: Texts.fontScene.rawValue).border(.white)
+                                        TextComponent(fontSize: Sizes.normal.rawValue, text: selectedText.rawValue, font: Texts.fontScene.rawValue).border(.white)
                                     }
                                 }
                                 

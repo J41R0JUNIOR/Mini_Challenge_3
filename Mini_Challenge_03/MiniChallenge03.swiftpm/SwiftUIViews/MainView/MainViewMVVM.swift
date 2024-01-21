@@ -21,16 +21,16 @@ class MainViewMVVM: ObservableObject{
     @Published var canClearChat: Bool = false
     @Published var customFont = CallFont()
     
-    @Published var NormalFontSize:CGFloat = 20
-    @Published var BigFontSize:CGFloat = 40
+
     
     @Published var StartButtonProportion = CGFloat(160) / CGFloat(60)
     @Published var StartButtonWidth: CGFloat = 200
     
-    var maxSpeed: Double = 50
     var minSpeed: Double = 2.0
     var maxWidth = 700
     var maxHeight = 500
+    
+    var maxSpeed: Double = 50
     var maxSpeedInScene:Double = 290000
     var speedOfLight: Double = 299792
     
@@ -107,7 +107,7 @@ class MainViewMVVM: ObservableObject{
             }
         )
     }
-    
+     
     var backGroundScene: SKScene {
         let scene = BackGroundScene(sceneSpeed: speedBinding)
         scene.size = CGSize(width: maxWidth, height: maxHeight)
@@ -115,30 +115,15 @@ class MainViewMVVM: ObservableObject{
         return scene
     }
     
-    var lightSpeed: SKScene {
-        let scene = LightSpeedSceneScene(sceneSpeed: speedBinding)
-//        scene.size = CGSize(width: maxWidth, height: maxHeight)
-        scene.scaleMode = .fill
-        return scene
-    }
-    
-    var reverseBackGround: SKScene {
-        let scene = ReverseBackGroundScene(sceneSpeed: speedBinding)
-//        scene.size = CGSize(width: maxWidth, height: maxHeight)
-        scene.scaleMode = .fill
-        return scene
-    }
-    
-    
      func calculateRealSpeed(_ speed: Double) -> Int {
-        let realSpeed = Int(speed * maxSpeedInScene / maxSpeed)
-
+         let realSpeed = Int((speed * speedOfLight / maxSpeed) * 0.9)
+         
         return realSpeed
     }
     
-    func calculateShowSpeed(speed: Double) -> Int {
+    func speedFormatted(speed: Double) -> Int {
+        let x =  ((speed * 300) / maxSpeed) * 0.9
         
-        let x =  speed * 300 / maxSpeed
         return Int(x)
     }
     

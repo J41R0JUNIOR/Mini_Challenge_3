@@ -15,6 +15,7 @@ class BackGroundScene: SKScene {
     init(sceneSpeed: Binding<Double>) {
         self._sceneSpeed = sceneSpeed
         super.init(size: CGSize())
+        scaleMode = .resizeFill
     }
 
     required init?(coder aDecoder: NSCoder) {
