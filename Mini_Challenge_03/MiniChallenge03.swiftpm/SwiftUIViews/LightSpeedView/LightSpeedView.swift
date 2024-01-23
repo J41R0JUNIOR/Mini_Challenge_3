@@ -9,50 +9,48 @@ import SwiftUI
 
 struct LightSpeedView: View {
     @StateObject var mainView: MainViewMVVM
-    let text: [Texts] = [.p1,.e1,.p2,.e2]
-    @State var index: Int = 0
+    @StateObject var lightSpeed : LightSpeedMVVM
     
+    init(mainView: MainViewMVVM) {
+            self._mainView = StateObject(wrappedValue: mainView)
+            self._lightSpeed = StateObject(wrappedValue: LightSpeedMVVM(mainView: mainView))
+        }
     
     var body: some View {
         VStack{
             Spacer()
             HStack{
                 
-                let selectedText = text[index]
+                let selectedText = lightSpeed.text[lightSpeed.index]
                 withAnimation {
                     TextComponent(fontSize: Sizes.normal.rawValue, text: selectedText.rawValue, font: Texts.fontScene.rawValue).border(.white)
                 }
                 
-                if selectedText.rawValue.contains("e"){
+                if selectedText.rawValue.contains("scientist:"){
                     Image("einstein")
                 }
-                
-            }.border(.red)
-            
+            }
             Spacer()
-            
             HStack{
-                
                 Spacer()
-                
                 Button(action: {
-                    print("Calma calabreso")
-                    if index < text.count - 1{
-                        index += 1
-                    }
+                    lightSpeed.button()
                 }, label: {
                     ZStack{
-                        Circle()
-                            .foregroundStyle(.white)
-                            .frame(width: 100)
+                        Rectangle()
+                            .frame(width: 100, height: 30)
+                            .foregroundStyle(.clear)
+                            .border(.white)
+//                        Circle()
+//                            .foregroundStyle(.white)
+//                            .frame(width: 100)
                         Text("next")
+                            .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
+                            .foregroundStyle(.white)
                     }
                 })
-            }.border(.red)
-            
-            
-            
-        }.border(.red)
+            }
+        }
         
     }
 }

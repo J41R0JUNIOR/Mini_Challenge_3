@@ -15,12 +15,11 @@ extension MainView{
     @ViewBuilder
     var MainSceneBuilder: some View {
         ZStack{
-            //backGround of the scene
             SpriteView(scene: mainView.backGroundScene)
                 .ignoresSafeArea()
                 .navigationBarBackButtonHidden()
             
-           
+            
             if !mainView.shipAppear{
                 VStack{
                     Spacer()
@@ -40,8 +39,6 @@ extension MainView{
             } else {
                 ObjectsSceneView(sceneSpeed: $mainView.shipSpeed, witchObject: $mainView.witchObject, canClearChat: $mainView.canClearChat)
                 
-//                ChatSceneView(witchObject: $mainView.witchObject, canClearChat: $mainView.canClearChat)
-                
                 ShipSceneView(sceneSpeed: $mainView.shipSpeed, shipAppear: $mainView.shipAppear, shipState: $mainView.shipState, isLightSpeed: $mainView.isLightSpeed)
                 
                 if mainView.shipState == "Middle"{
@@ -49,19 +46,9 @@ extension MainView{
                     VStack{
                         HStack{
                             VStack{
-                                //                                    Spacer()
                                 Text(Texts.upLeft.rawValue)
                                     .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
-                                    .colorInvert()
-                                
-                                
-                                //                                    Spacer()
-                                
-                                //                                    Slider(value: $mainView.shipSpeed, in: 2.0...mainView.maxSpeed, step: 0.1)
-                                //                                        .frame(width: 300)
-                                //                                        .rotationEffect(.degrees(90))
-                                ////                                        .padding()
-                                //                                        .tint(.clear)
+                                    .foregroundStyle(.white)
                                 
                                 Text("\nNormal")
                                     .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
@@ -69,14 +56,7 @@ extension MainView{
                                 ZStack{
                                     let h: CGFloat = 200
                                     let w: CGFloat = 25
-                                    
                                     let x = ((200 * mainView.shipSpeed) / 50) - 4
-                                    
-                                    
-//                                    Rec(y: 0)
-//                                        .frame(width: w, height: h)
-//                                        .foregroundColor(.clear)
-//                                        .border(.white, width: 3)
                                     
                                     Rec(y: x - 4)
                                         .frame(width: w * 0.87 , height: h * 0.98)
@@ -88,19 +68,9 @@ extension MainView{
                                     .foregroundStyle(.white)
                                 
                                 Spacer()
-                                
                             }
                             
                             Spacer()
-                            
-//                            VStack{
-//                                Text("Hora atual: \(Date().formatted(date: .omitted, time: .complete))").colorInvert()
-//                                Text("Hora da nave: ").colorInvert()
-//                                Text("Diferenca: \(mainView.date.formatted(date: .omitted, time: .complete))").colorInvert()
-//                                Spacer()
-//                            }
-//                            
-//                            Spacer()
                             
                             VStack{
                                 ZStack{
@@ -121,12 +91,6 @@ extension MainView{
                                 Text(Texts.upRight.rawValue)
                                 
                                 Spacer()
-                                
-                                //                                    Slider(value: $mainView.shipSpeed, in: 2.0...mainView.maxSpeed, step: 0.1)
-                                //                                        .frame(width: 300)
-                                //                                        .rotationEffect(.degrees(-90))
-                                //                                        .padding()
-                                
                                 
                                 if mainView.shipSpeed >= mainView.maxSpeed{
                                     Button {
@@ -152,7 +116,7 @@ extension MainView{
                             Button(action: {
                                 
                             }, label: {
-                                Text("Frear")
+                                Text(Texts.down.rawValue)
                                     .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
                                     .foregroundStyle(.white)
                             }).padding()
@@ -175,7 +139,7 @@ extension MainView{
                             Button(action: {
                                 
                             }, label: {
-                                Text("Acelerar")
+                                Text(Texts.up.rawValue)
                                     .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
                                     .foregroundStyle(.white)
                             }).padding()
@@ -192,17 +156,12 @@ extension MainView{
                                         mainView.accelerateShip(canAccelerate: false)
                                     }
                                 }.padding()
-                            
                         }
                     }
-                    
                     VStack{
                         Spacer()
                         HStack{
                             if mainView.witchObject != "Anything"{
-//                                var text = Texts(rawValue: Texts.RawValue("earth")) ?? Texts.earth
-//                                
-                                
                                 let text: [String: Texts] = ["earth": .earth, "jupiter": .jupiter]
                                 
                                 if let selectedText = text[mainView.witchObject]{
@@ -210,25 +169,12 @@ extension MainView{
                                         TextComponent(fontSize: Sizes.normal.rawValue, text: selectedText.rawValue, font: Texts.fontScene.rawValue).border(.white)
                                     }
                                 }
-                                
-//                                TextComponent(fontSize: mainView.NormalFontSize, text: "", font: Texts.fontScene.rawValue).border(.white)
-                                    
-                                    Text(mainView.witchObject)
+                                Text(mainView.witchObject)
                             }
-//                            ChatSceneView(witchObject: $mainView.witchObject, canClearChat: $mainView.canClearChat)
                         }
                     }
                 }
             }
-            
-            
-            
-        }/*.onAppear {
-            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-                let timeDifference = mainView.calculateTimeDifference(speed: Double(mainView.calculateRealSpeed(mainView.shipSpeed)), currentTime: Date())
-                mainView.date = timeDifference
-            }
-        }*/
-        
+        }
     }
 }
