@@ -24,7 +24,7 @@ extension MainView{
                 VStack{
                     Spacer()
                     
-                    TextComponent(fontSize: Sizes.great.rawValue, text: Texts.inicialLabel.rawValue, font: Texts.fontScene.rawValue).border(.white)
+                    TextComponent(fontSize: HudTextSizes.great.rawValue, text: HudTexts.inicialLabel.rawValue, font: HudTexts.fontScene.rawValue).border(.white)
                     
                     Spacer()
                     
@@ -46,24 +46,24 @@ extension MainView{
                     VStack{
                         HStack{
                             VStack{
-                                Text(Texts.upLeft.rawValue)
-                                    .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
+                                Text(HudTexts.upLeft.rawValue)
+                                    .font(Font.custom(HudTexts.fontScene.rawValue, size: HudTextSizes.normal.rawValue))
                                     .foregroundStyle(.white)
                                 
-                                Text("\nNormal")
-                                    .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
+                                Text("\n\(HudTexts.upTimeScale.rawValue)")
+                                    .font(Font.custom(HudTexts.fontScene.rawValue, size: HudTextSizes.normal.rawValue))
                                     .foregroundStyle(.white)
                                 ZStack{
                                     let h: CGFloat = 200
                                     let w: CGFloat = 25
                                     let x = ((200 * mainView.shipSpeed) / 50) - 4
                                     
-                                    Rec(y: x - 4)
+                                    TimeScaleCounter(y: x - 4)
                                         .frame(width: w * 0.87 , height: h * 0.98)
                                         .foregroundColor(.red)
                                         .border(.white, width: 3)
                                 }
-                                Text("∞")
+                                Text(HudTexts.downTimeScale.rawValue)
                                     .font(.system(size: 30))
                                     .foregroundStyle(.white)
                                 
@@ -74,21 +74,24 @@ extension MainView{
                             
                             VStack{
                                 ZStack{
+                                    let h: CGFloat = 100
+                                    let w: CGFloat = 100
+                                    
                                     SpeedCounter(startAngle: .degrees(0), endAngle: .degrees(300), clockWise: false)
                                         .stroke(.gray, style: StrokeStyle(lineWidth: 10.5, lineCap: .round, lineJoin: .round))
-                                        .frame(width: 100, height: 100)
+                                        .frame(width: w, height: h)
                                     
                                     SpeedCounter(startAngle: .degrees(0), endAngle: .degrees(Double(mainView.speedFormatted(speed: mainView.shipSpeed))), clockWise: false)
-                                        .stroke(.linearGradient(colors: [/*Color(.color1), */Color(.color2), Color(.color3)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 10.5, lineCap: .round, lineJoin: .round))
-                                        .frame(width: 100, height: 100)
+                                        .stroke(.linearGradient(colors: [Color(.color1), Color(.color2)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 10.5, lineCap: .round, lineJoin: .round))
+                                        .frame(width: w, height: h)
                                     
                                     VStack{
                                         Text("\(mainView.calculateRealSpeed(mainView.shipSpeed))")
-                                            .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
+                                            .font(Font.custom(HudTexts.fontScene.rawValue, size: HudTextSizes.normal.rawValue))
                                             .colorInvert()
                                     }
                                 }
-                                Text(Texts.upRight.rawValue)
+                                Text(HudTexts.upRight.rawValue)
                                 
                                 Spacer()
                                 
@@ -96,13 +99,11 @@ extension MainView{
                                     Button {
                                         mainView.isLightSpeed.toggle()
                                     } label:{
-                                        Text(Texts.lightSpeedButton.rawValue)
-                                            .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
+                                        Text(HudTexts.lightSpeedButton.rawValue)
+                                            .font(Font.custom(HudTexts.fontScene.rawValue, size: HudTextSizes.normal.rawValue))
                                     }
                                 }else{
                                     Text(" ")
-                                    
-                                    
                                 }
                                 
                                 
@@ -116,8 +117,8 @@ extension MainView{
                             Button(action: {
                                 
                             }, label: {
-                                Text(Texts.down.rawValue)
-                                    .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
+                                Text(HudTexts.down.rawValue)
+                                    .font(Font.custom(HudTexts.fontScene.rawValue, size: HudTextSizes.normal.rawValue))
                                     .foregroundStyle(.white)
                             }).padding()
                                 .onLongPressGesture(minimumDuration: 1) {
@@ -139,8 +140,8 @@ extension MainView{
                             Button(action: {
                                 
                             }, label: {
-                                Text(Texts.up.rawValue)
-                                    .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
+                                Text(HudTexts.up.rawValue)
+                                    .font(Font.custom(HudTexts.fontScene.rawValue, size: HudTextSizes.normal.rawValue))
                                     .foregroundStyle(.white)
                             }).padding()
                                 .onLongPressGesture(minimumDuration: 1) {
@@ -162,11 +163,11 @@ extension MainView{
                         Spacer()
                         HStack{
                             if mainView.witchObject != "Anything"{
-                                let text: [String: Texts] = ["earth": .earth, "jupiter": .jupiter]
+                                let text: [String: HudTexts] = ["earth": .earth, "jupiter": .jupiter]
                                 
                                 if let selectedText = text[mainView.witchObject]{
                                     withAnimation {
-                                        TextComponent(fontSize: Sizes.normal.rawValue, text: selectedText.rawValue, font: Texts.fontScene.rawValue).border(.white)
+                                        TextComponent(fontSize: HudTextSizes.normal.rawValue, text: selectedText.rawValue, font: HudTexts.fontScene.rawValue).border(.white)
                                     }
                                 }
                                 Text(mainView.witchObject)

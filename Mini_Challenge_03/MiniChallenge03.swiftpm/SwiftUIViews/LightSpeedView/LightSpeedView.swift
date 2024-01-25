@@ -23,7 +23,7 @@ struct LightSpeedView: View {
                 
                 let selectedText = lightSpeed.text[lightSpeed.index]
                 withAnimation {
-                    TextComponent(fontSize: Sizes.normal.rawValue, text: selectedText.rawValue, font: Texts.fontScene.rawValue).border(.white)
+                    TextComponent(fontSize: HudTextSizes.normal.rawValue, text: selectedText.rawValue, font: HudTexts.fontScene.rawValue).border(.white)
                 }
                 
                 if selectedText.rawValue.contains("scientist:"){
@@ -45,7 +45,7 @@ struct LightSpeedView: View {
 //                            .foregroundStyle(.white)
 //                            .frame(width: 100)
                         Text("next")
-                            .font(Font.custom(Texts.fontScene.rawValue, size: Sizes.normal.rawValue))
+                            .font(Font.custom(HudTexts.fontScene.rawValue, size: HudTextSizes.normal.rawValue))
                             .foregroundStyle(.white)
                     }
                 })

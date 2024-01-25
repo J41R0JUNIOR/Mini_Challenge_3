@@ -29,5 +29,5 @@ struct TextComponent: View{
 }
 
 #Preview {
-    TextComponent(fontSize: 40, text: Texts.p1.rawValue, font: Texts.fontScene.rawValue)
+    TextComponent(fontSize: 40, text: HudTexts.p1.rawValue, font: HudTexts.fontScene.rawValue)
 }

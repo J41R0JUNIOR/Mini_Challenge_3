@@ -78,7 +78,7 @@ class BackGroundScene: SKScene {
             }
         }
     }
-
+ 
     func createStars() {
         let star: SKSpriteNode = {
            

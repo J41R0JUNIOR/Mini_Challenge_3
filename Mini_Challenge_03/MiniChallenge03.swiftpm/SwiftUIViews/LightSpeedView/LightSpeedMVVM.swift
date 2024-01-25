@@ -10,7 +10,7 @@ import SwiftUI
 class LightSpeedMVVM: ObservableObject{
     @Published var mainView: MainViewMVVM
     @Published var index: Int = 0
-    let text: [Texts] = [.p1,.e1,.p2,.e2]
+    let text: [HudTexts] = [.p1,.e1,.p2,.e2]
     
     init(mainView: MainViewMVVM) {
         self.mainView = mainView

@@ -26,7 +26,7 @@ struct SpeedCounter : Shape{
 }
 
 
-struct Rec: Shape{
+struct TimeScaleCounter: Shape{
     let y: CGFloat
   
     
