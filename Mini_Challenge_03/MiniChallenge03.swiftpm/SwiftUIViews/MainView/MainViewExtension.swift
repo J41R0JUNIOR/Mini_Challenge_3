@@ -1,10 +1,3 @@
-//
-//  File.swift
-//
-//
-//  Created by Jairo Júnior on 01/01/24.
-//
-
 import SwiftUI
 import SpriteKit
 import UIKit

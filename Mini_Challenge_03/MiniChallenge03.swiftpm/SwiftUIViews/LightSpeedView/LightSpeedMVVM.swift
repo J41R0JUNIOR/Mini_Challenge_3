@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Jairo Júnior on 23/01/24.
-//
-
 import SwiftUI
 
 class LightSpeedMVVM: ObservableObject{

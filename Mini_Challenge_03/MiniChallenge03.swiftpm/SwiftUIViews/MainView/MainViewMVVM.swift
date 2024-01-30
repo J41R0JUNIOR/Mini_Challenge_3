@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Jairo Júnior on 08/12/23.
-//
-
 import Foundation
 import SwiftUI
 import SpriteKit

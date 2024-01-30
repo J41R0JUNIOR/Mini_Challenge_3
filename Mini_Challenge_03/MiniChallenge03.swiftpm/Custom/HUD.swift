@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Jairo Júnior on 09/01/24.
-//
-
 import SwiftUI
 
 struct SpeedCounter : Shape{

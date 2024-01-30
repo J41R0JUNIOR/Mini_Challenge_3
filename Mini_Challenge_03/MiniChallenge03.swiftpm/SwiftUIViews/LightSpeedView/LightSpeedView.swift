@@ -1,10 +1,3 @@
-//
-//  LightSpeedView.swift
-//  MiniChallenge03
-//
-//  Created by Jairo Júnior on 17/01/24.
-//
-
 import SwiftUI
 
 struct LightSpeedView: View {

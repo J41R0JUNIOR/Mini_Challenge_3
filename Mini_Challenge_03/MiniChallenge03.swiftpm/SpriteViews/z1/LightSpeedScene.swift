@@ -1,11 +1,3 @@
-//
-//  Character.swift
-//  MiniChallenge03
-//
-//  Created by Jairo Júnior on 06/12/23.
-//
-
-import Foundation
 import SpriteKit
 import SwiftUI
 

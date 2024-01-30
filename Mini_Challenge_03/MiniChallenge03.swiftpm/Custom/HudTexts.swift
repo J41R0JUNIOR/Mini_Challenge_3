@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Jairo Júnior on 14/01/24.
-//
-
 import Foundation
 
 public enum HudTexts: String{

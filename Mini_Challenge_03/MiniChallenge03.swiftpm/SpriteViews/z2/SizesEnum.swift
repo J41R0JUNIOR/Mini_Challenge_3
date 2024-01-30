@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Jairo Júnior on 25/01/24.
-//
-
 import Foundation
 
 enum SizesEnum {
