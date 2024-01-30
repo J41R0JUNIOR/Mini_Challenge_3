@@ -27,8 +27,8 @@ public enum HudTexts: String{
     
     
     //objectsView
-    case jupiter = "Light takes an average of 0.47s to go around Jupiter completely, this means that in one second it goes around the planet 2.12 times."
-    case earth = "Light takes an average of 0.04s to go around the Earth completely, this means that in one second it goes around the planet 23 times."
+    case jupiter = "Light takes an average of 1.4s to go around Jupiter completely, this means that in one second it goes around the planet 0.6 times."
+    case earth = "Light takes an average of 0.13s to go around the Earth completely, this means that in one second it goes around the planet 7 times."
     
     
     //chatsView
