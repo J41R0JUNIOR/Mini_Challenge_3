@@ -11,7 +11,7 @@ public enum HudTexts: String{
     case upRight = "Speed"
     
     //shipSpeed
-    case up = "Gas"
+    case up = "Speed up"
     case down = "Break"
     
     //TimeScaleCounter
@@ -31,10 +31,18 @@ public enum HudTexts: String{
     
     case p2 = "pilot: What does it mean?"
     case e2 = "scientist: That the play is about to begin"
+    
+    case final = "The End"
 }
 
 enum HudTextSizes: CGFloat{
     case great = 40
     case normal = 20
     case small = 10
+}
+
+public enum ObjectsEnum: String{
+    case scientist = "scientist"
+    case earth
+    case jupiter
 }

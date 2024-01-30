@@ -7,8 +7,8 @@ class LightSpeedScene: SKScene {
     var i: Int = 0
     
   
-    var einstein: SKSpriteNode = {
-        let object = SKSpriteNode(imageNamed: "einstein")
+    var physics: SKSpriteNode = {
+        let object = SKSpriteNode(imageNamed: ObjectsEnum.scientist.rawValue)
 //        object.size = CGSize(width: 100, height: 100)
         return object
     }()
@@ -25,22 +25,22 @@ class LightSpeedScene: SKScene {
         cameraNode.setScale(1.0)
         self.camera = cameraNode
         
-        //add Einstein to the scene
-        self.addChild(einstein)
+        //add Physic to the scene
+        self.addChild(physics)
     }
     
     func characterSetting(){
         if show2{
             let frame = (CGFloat(self.view?.bounds.size.width ?? 700)/2) * 0.5
-            einstein.size = CGSize(width: frame, height: frame)
+            physics.size = CGSize(width: frame, height: frame)
             
             if let view = self.view{
-                einstein.position = CGPoint(x: (view.frame.width / 2) * 0.5 , y: 0)
+                physics.position = CGPoint(x: (view.frame.width / 2) * 0.5 , y: 0)
             }
-            einstein.isHidden = false
+            physics.isHidden = false
             addSecondScene()
         }else{
-            einstein.isHidden = true
+            physics.isHidden = true
         }
     }
     

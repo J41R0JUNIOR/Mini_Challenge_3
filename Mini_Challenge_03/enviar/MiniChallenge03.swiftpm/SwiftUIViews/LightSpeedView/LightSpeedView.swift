@@ -20,8 +20,10 @@ struct LightSpeedView: View {
                 }
                 
                 if selectedText.rawValue.contains("scientist:"){
-                    Image("einstein")
+                    Image(ObjectsEnum.scientist.rawValue)
                 }
+                
+                
             }
             Spacer()
             HStack{
@@ -34,9 +36,6 @@ struct LightSpeedView: View {
                             .frame(width: 100, height: 30)
                             .foregroundStyle(.clear)
                             .border(.white)
-//                        Circle()
-//                            .foregroundStyle(.white)
-//                            .frame(width: 100)
                         Text("next")
                             .font(Font.custom(HudTexts.fontScene.rawValue, size: HudTextSizes.normal.rawValue))
                             .foregroundStyle(.white)
