@@ -114,8 +114,8 @@ class MainViewMVVM: ObservableObject{
         return realSpeed
     }
     
-    func speedFormatted(speed: Double) -> Int {
-        let x =  ((speed * 300) / maxSpeed) * 0.9
+    func speedFormatted(speed: Double, max: Double) -> Int {
+        let x =  ((speed * max) / maxSpeed) * 0.9
         
         return Int(x)
     }

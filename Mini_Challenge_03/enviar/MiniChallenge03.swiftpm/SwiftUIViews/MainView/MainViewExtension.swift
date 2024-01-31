@@ -49,9 +49,10 @@ extension MainView{
                                 ZStack{
                                     let h: CGFloat = 200
                                     let w: CGFloat = 25
-                                    let x = ((200 * mainView.shipSpeed) / 50) - 4
+//                                    let y = ((150 * mainView.shipSpeed) / 50)
+                                    let y = mainView.speedFormatted(speed: mainView.shipSpeed, max: h)
                                     
-                                    TimeScaleCounter(y: x - 4)
+                                    TimeScaleCounter(y: CGFloat(y))
                                         .frame(width: w * 0.87 , height: h * 0.98)
                                         .foregroundColor(.red)
                                         .border(.white, width: 3)
@@ -74,7 +75,7 @@ extension MainView{
                                         .stroke(.gray, style: StrokeStyle(lineWidth: 10.5, lineCap: .round, lineJoin: .round))
                                         .frame(width: w, height: h)
                                     
-                                    SpeedCounter(startAngle: .degrees(0), endAngle: .degrees(Double(mainView.speedFormatted(speed: mainView.shipSpeed))), clockWise: false)
+                                    SpeedCounter(startAngle: .degrees(0), endAngle: .degrees(Double(mainView.speedFormatted(speed: mainView.shipSpeed, max: 300))), clockWise: false)
                                         .stroke(.linearGradient(colors: [Color(.color1), Color(.color2)], startPoint: .leading, endPoint: .trailing), style: StrokeStyle(lineWidth: 10.5, lineCap: .round, lineJoin: .round))
                                         .frame(width: w, height: h)
                                     
