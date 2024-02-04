@@ -36,19 +36,6 @@ class ObjectsScene: SKScene {
         self.camera = cameraNode
     }
     
-    func scheduleObjectCreation() {
-        guard let object = self.objectsName.first else {
-            return
-        }
-        
-        self.createObjects(nameOfObject: object)
-        self.areThereObjectAtScreen = true
-        self.witchObject = object
-        
-        if let indexToRemove = self.objectsName.firstIndex(of: object) {
-            self.objectsName.remove(at: indexToRemove)
-        }
-    }
     
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -73,7 +60,7 @@ class ObjectsScene: SKScene {
         if self.witchObject == "Anything" {
             witchObject = "obj in scene"
             
-            let delayAction = SKAction.wait(forDuration: 15)
+            let delayAction = SKAction.wait(forDuration: 1)
             let callFunctionAction = SKAction.run { [weak self] in
                 self?.scheduleObjectCreation()
             }
@@ -81,21 +68,37 @@ class ObjectsScene: SKScene {
         }
     }
     
-    func updateObjectWidth(object:SKSpriteNode){
-        let withcOne: [String:SizesEnum] = ["earth": .earth, "jupiter": .jupiter]
-        
-        if let name = object.name, let originalWidth: CGFloat = (withcOne[name]?.size.width){
-            
-            let scaleFactor = CGFloat(1.0) - CGFloat(self.sceneSpeed) * 0.003
-            var newWidth = originalWidth * scaleFactor
-
-            
-            let proportion = newWidth / originalWidth
-            
-            object.size = CGSize(width: newWidth, height: (newWidth / proportion))
-            
+    func scheduleObjectCreation() {
+        guard let object = self.objectsName.first else {
+            return
         }
         
+        self.createObjects(nameOfObject: object)
+        self.areThereObjectAtScreen = true
+        self.witchObject = object
+        
+        if let indexToRemove = self.objectsName.firstIndex(of: object) {
+            self.objectsName.remove(at: indexToRemove)
+        }
+    }
+    
+    func calculateRealSpeed(_ speed: Double) -> CGFloat {
+        let realSpeed = CGFloat((speed * 299792 / 50) * 0.9)
+        return realSpeed
+    }
+
+    func updateObjectWidth(object: SKSpriteNode) {
+        let witchOne: [String: SizesEnum] = ["earth": .earth, "jupiter": .jupiter]
+        let realSpeed = calculateRealSpeed(sceneSpeed)
+        
+        if let name = object.name, let originalSize: CGSize = (witchOne[name]?.size) {
+            
+            let contractedWidth = originalSize.width * sqrt(1 - pow((realSpeed / 299792), 2))
+            
+            let newWidth = contractedWidth
+            
+            object.size = CGSize(width: newWidth, height: originalSize.height)
+        }
     }
     
     func createObjects(nameOfObject: String) {

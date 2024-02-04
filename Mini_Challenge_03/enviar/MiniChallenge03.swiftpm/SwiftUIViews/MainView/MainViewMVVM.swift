@@ -29,42 +29,7 @@ class MainViewMVVM: ObservableObject{
     
     @Published var accelerationTimer: Timer?
     @Published var breakTimer: Timer?
-
     
-    
-    func accelerateShip(canAccelerate: Bool) {
-        if canAccelerate {
-            accelerationTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
-                guard let self = self else { return }
-
-                if self.shipSpeed < self.maxSpeed {
-                    self.shipSpeed += 0.1
-                }
-            }
-        } else {
-            accelerationTimer?.invalidate()
-            accelerationTimer = nil
-        }
-    }
-    
-    func breakShip(canBreak: Bool) {
-        if canBreak {
-            breakTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
-                guard let self = self else { return }
-
-                if self.shipSpeed > self.minSpeed {
-                    self.shipSpeed -= 0.3
-                    accelerateShip(canAccelerate: false)
-                }
-            }
-        } else {
-            breakTimer?.invalidate()
-            breakTimer = nil
-        }
-    }
-
-
-
     var speedBinding: Binding<Double> {
         Binding(
             get: { self.shipSpeed },
@@ -107,6 +72,39 @@ class MainViewMVVM: ObservableObject{
         scene.scaleMode = .fill
         return scene
     }
+
+    
+    
+    func accelerateShip(canAccelerate: Bool) {
+        if canAccelerate {
+            accelerationTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
+                guard let self = self else { return }
+
+                if self.shipSpeed < self.maxSpeed {
+                    self.shipSpeed += 0.1
+                }
+            }
+        } else {
+            accelerationTimer?.invalidate()
+            accelerationTimer = nil
+        }
+    }
+    
+    func breakShip(canBreak: Bool) {
+        if canBreak {
+            breakTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
+                guard let self = self else { return }
+
+                if self.shipSpeed > self.minSpeed {
+                    self.shipSpeed -= 0.3
+                    accelerateShip(canAccelerate: false)
+                }
+            }
+        } else {
+            breakTimer?.invalidate()
+            breakTimer = nil
+        }
+    }
     
      func calculateRealSpeed(_ speed: Double) -> Int {
          let realSpeed = Int((speed * speedOfLight / maxSpeed) * 0.9)
@@ -120,16 +118,7 @@ class MainViewMVVM: ObservableObject{
         return Int(x)
     }
     
-//    var date: Date =  Date()
-//    
-//    func calculateTimeDifference(speed: Double, currentTime: Date) -> Date {
-//        let relativisticFactor = 1 / sqrt(1 - (pow(speed, 2) / pow(maxSpeedInScene, 2)))
-//        let dilatedTimeInterval = currentTime.timeIntervalSinceReferenceDate * relativisticFactor
-//        
-//        let dilatedDate = Date(timeIntervalSinceReferenceDate: dilatedTimeInterval)
-//
-//        return dilatedDate
-//    }
+   
 }
 
 #Preview(body: {
