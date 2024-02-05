@@ -15,9 +15,6 @@ struct MainView: View {
                 }
             }
             else if mainView.shipState == "Outside"{
-                withAnimation {
-                    LightsSpeedSceneView()
-                }
                 LightSpeedView(mainView: mainView)
             }
         }.background(.black)

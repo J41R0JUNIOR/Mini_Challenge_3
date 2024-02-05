@@ -22,8 +22,6 @@ struct LightSpeedView: View {
                 if selectedText.rawValue.contains("scientist:"){
                     Image(ObjectsEnum.scientist.rawValue)
                 }
-                
-                
             }
             Spacer()
             HStack{
