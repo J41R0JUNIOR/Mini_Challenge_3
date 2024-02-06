@@ -8,9 +8,10 @@ class ObjectsScene: SKScene {
     @Binding var canClearChat: Bool
     
     let cameraNode = SKCameraNode()
-    
-    
-    var objectsName: [String] = ["earth", "jupiter", "earth", "jupiter", "earth", "jupiter", "earth", "jupiter", "earth", "jupiter", "earth", "jupiter", "earth"]
+    var waveNode: SKShapeNode?
+    var wafeFrequency: CGFloat = 0.05
+
+    var objectsName: [String] = ["earth", "jupiter", "earth", "jupiter", "earth", "jupiter", "earth", "jupiter"]
     
     var areThereObjectAtScreen: Bool = false
     
@@ -34,6 +35,7 @@ class ObjectsScene: SKScene {
         cameraNode.position = CGPoint(x: 0, y: 0)
         cameraNode.setScale(1.0)
         self.camera = cameraNode
+        
     }
     
     
@@ -49,9 +51,14 @@ class ObjectsScene: SKScene {
         for (_, object) in self.children.enumerated().reversed() {
             if let objectFound = object as? SKSpriteNode{
                 updateObjectWidth(object: objectFound)
-                
             }
         }
+        
+//        createWave()
+        
+//        if let firstObject = objects.first {
+//            waveNode?.position.x = firstObject.position.x
+//        }
         
         moveObjects(withSpeed: CGFloat(sceneSpeed))
         removeObjectsOutOfBounds()
@@ -60,7 +67,7 @@ class ObjectsScene: SKScene {
         if self.witchObject == "Anything" {
             witchObject = "obj in scene"
             
-            let delayAction = SKAction.wait(forDuration: 15)
+            let delayAction = SKAction.wait(forDuration: 1)
             let callFunctionAction = SKAction.run { [weak self] in
                 self?.scheduleObjectCreation()
             }
@@ -151,6 +158,43 @@ class ObjectsScene: SKScene {
         }
     }
     
+    func createWave() {
+        if let node = self.childNode(withName: "waveShapeNode"){
+            node.removeFromParent()
+        }
+        
+        let wavePath = UIBezierPath()
+        let amplitude: CGFloat = sceneSpeed * 2
+        let frequency: CGFloat = wafeFrequency
+        let numberOfPoints = 500
+        
+        for i in 0...numberOfPoints {
+            let x = CGFloat(i)
+            let y = amplitude * sin(frequency * x)
+            let point = CGPoint(x: x, y: y)
+            
+            if i == 0 {
+                wavePath.move(to: point)
+            } else {
+                wavePath.addLine(to: point)
+            }
+        }
+        
+        let waveShapeNode = SKShapeNode(path: wavePath.cgPath)
+        if let object = objects.first{
+            waveShapeNode.strokeColor = object.position.x > 0 ? SKColor.blue : SKColor.red
+            waveShapeNode.position = CGPoint(x: 0, y: 0)
+        }
+        
+        waveShapeNode.name = "waveShapeNode"
+        
+        if self.childNode(withName: "waveShapeNode") == nil{
+            addChild(waveShapeNode)
+        }
+        
+        self.waveNode = waveShapeNode
+    }
+    
     func changeColorsOfObjects(){
         let screenWidth = CGFloat(self.view?.bounds.width ?? 700) - 550
         
@@ -159,6 +203,8 @@ class ObjectsScene: SKScene {
         
         
         let redColor = max(0.0, 1.0 - normalizedX)
+        
+        
         let blueColor = max(0.0, 1.0 + normalizedX)
         
         let viewW = (view?.bounds.size.width ?? CGFloat(200))
@@ -167,13 +213,10 @@ class ObjectsScene: SKScene {
         objects.first?.color = SKColor(red: redColor, green: 0.0, blue: blueColor, alpha: 1.0)
         
         if let position = objects.first?.position.x{
-            //porcentagem da tela de acordo com o objeto na tela
-            let percentT = abs((position * 100) / (viewW / 2) / 100)
-            let percentV = abs(((sceneSpeed * 100) / 50) / 100)
+            let percentV = abs((position * 100) / (viewW / 2) / 100)
+            let value =  ((percentV) / 2)
             
-            let value =  ((percentT + percentV) / 2)
-            
-            objects.first?.colorBlendFactor = /* (0.5 * sceneSpeed) * abs(x / 100)*/ value
+            objects.first?.colorBlendFactor = value
         }
         
         let mult = 0.1
