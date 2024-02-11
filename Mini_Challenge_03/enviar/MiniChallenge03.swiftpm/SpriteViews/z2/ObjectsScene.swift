@@ -7,7 +7,6 @@ class ObjectsScene: SKScene {
     @Binding var witchObject: String
     @Binding var canClearChat: Bool
     
-    
     let cameraNode = SKCameraNode()
     var waveNode: SKShapeNode?
     var currentTime: TimeInterval = 0.0
@@ -60,9 +59,8 @@ class ObjectsScene: SKScene {
         if objects.count > 0{
             createWave()
         }else{
-            if let node = self.childNode(withName: "waveShapeNode"), let node2 = self.childNode(withName: "square"){
+            if let node = self.childNode(withName: "waveShapeNode"){
                 node.removeFromParent()
-                node2.removeFromParent()
             }
         }
         
@@ -169,64 +167,54 @@ class ObjectsScene: SKScene {
     }
     
     func createWave() {
-        if let node = self.childNode(withName: "waveShapeNode"), let nodeSquare = self.childNode(withName: "square"){
+        if let node = self.childNode(withName: "waveShapeNode"){
             node.removeFromParent()
-            nodeSquare.removeFromParent()
         }
-
         let wavePath = UIBezierPath()
         var amplitude: CGFloat = sceneSpeed * 2
         var numberOfPoints = 10
         let waveVelocity: CGFloat = 5 + (sceneSpeed * 0.15)
         var complement: CGFloat = 0
-
-        if let obj = objects.first {
+        
+        if let obj = objects.first{
             if obj.position.x > 0 {
                 complement = 10
                 numberOfPoints = 50
                 amplitude = sceneSpeed * 2
-            } else if obj.position.x < 0 {
+            }else if obj.position.x < 0{
                 complement = 50
                 numberOfPoints = 5
-                amplitude = sceneSpeed * 2
+                amplitude = sceneSpeed * 1
             }
         }
-
+        
         for i in 0...numberOfPoints {
             let x = CGFloat(i) * complement
             let y = amplitude * sin(CGFloat(i) + currentTime * waveVelocity)
             let point = CGPoint(x: x, y: y)
-
+            
             if i == 0 {
                 wavePath.move(to: point)
             } else {
                 wavePath.addLine(to: point)
             }
         }
-
+    
         let waveShapeNode = SKShapeNode(path: wavePath.cgPath)
-
+        waveShapeNode.position = CGPoint(x: self.frame.minX - (waveShapeNode.frame.width/2), y: (self.frame.height / 2) - (waveShapeNode.frame.height))
         
-        let square = SKShapeNode(rectOf: CGSize(width: waveShapeNode.frame.width + 50, height: waveShapeNode.frame.height + 50), cornerRadius: 1)
-        square.strokeColor = SKColor.white
-        square.lineWidth = 2.0
-        square.fillColor = .black
-        square.zPosition = -1
-        square.position = CGPoint(x: 0, y: self.frame.height / 2 - square.frame.height)
-        square.name = "square"
-
-        waveShapeNode.position = CGPoint(x: square.position.x - (waveShapeNode.frame.width / 2), y: square.position.y)
-
-        if let object = objects.first {
+        if let object = objects.first{
             waveShapeNode.strokeColor = object.position.x > 0 ? SKColor.blue : SKColor.red
         }
-
+        
         waveShapeNode.name = "waveShapeNode"
         
-        addChild(square)
-        addChild(waveShapeNode)
-
+        if self.childNode(withName: "waveShapeNode") == nil{
+            addChild(waveShapeNode)
+        }
+        
         self.waveNode = waveShapeNode
+        
     }
     
     func changeColorsOfObjects(){
